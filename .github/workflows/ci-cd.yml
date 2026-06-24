@@ -1,0 +1,120 @@
+# global configuration, name will show on github actions
+name: KMP CI/CD
+
+env:
+  APK_PATH: androidApp/build/outputs/apk/debug/androidApp-debug.apk
+
+# run this workflow when I push to main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # --- STAGE: COMPILE ---
+  compile-android:
+    name: "Compile Android"
+    runs-on: ubuntu-latest  # run the following steps on a linux machine
+
+    steps:
+      # clone from repo to runner
+      - uses: actions/checkout@v4
+
+      # install JDK 17
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # optimise gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # compile the APK
+      - name: Build Android Debug APK
+        run: ./gradlew :androidApp:assembleDebug
+
+      # save the apk to repo
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-debug-apk
+          path: ${{ env.APK_PATH }}
+
+  compile-ios:
+    name: "Compile: iOS (Verification)"
+    runs-on: macos-latest # run the following steps on a mac
+    steps:
+      # clone from repo to runner
+      - uses: actions/checkout@v4
+
+      # install java
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # optimise gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # test that iOS version compiles (currently not building)
+      - name: Verify Shared Compilation for iOS
+        run: ./gradlew :shared:compileKotlinIosSimulatorArm64
+
+  # --- STAGE: TEST ---
+  test:
+    name: "Test: Unit Tests"
+    # needs: [compile-android, compile-ios] # don't run if either version doesn't build
+    runs-on: ubuntu-latest  # run the following steps on linux
+    steps:
+
+      # clone repo
+      - uses: actions/checkout@v4
+
+      # install Java
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # optimise gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # run the debug tests in shared/src/commonTest
+      # run the debug tests in shared/src/androidHostTest
+      - name: Run Common & Android Tests
+        run: ./gradlew :shared:test :androidApp:testDebugUnitTest
+
+  # --- STAGE: DEPLOY ---
+  deploy-android:
+    name: "Deploy via Firebase"
+    needs: [test, compile-android] # do not run if test does not run successfully
+    if: github.ref == 'refs/heads/main' # only deploy if on main (sanity check)
+    runs-on: ubuntu-latest # run the steps on linux
+
+    steps:
+      # clone repo
+      - uses: actions/checkout@v4
+
+      # download apk from the repo
+      - name: Download APK Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: android-debug-apk
+          path: androidApp/build/outputs/apk/debug/
+
+      # run command that sends the apk to firebase
+      - name: Distribute to Firebase App Distribution
+        uses: w9jds/firebase-action@v15.22.1
+        with:
+          args: >
+            appdistribution:distribute ${{ env.APK_PATH }}
+            --app "${{ secrets.FIREBASE_ANDROID_APP_ID }}"
+            --groups internal-testers
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
