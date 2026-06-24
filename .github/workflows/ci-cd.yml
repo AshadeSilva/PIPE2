@@ -20,6 +20,10 @@ jobs:
       # clone from repo to runner
       - uses: actions/checkout@v4
 
+      # gradlew executable permissions
+      - name: Make gradlew executable
+        run: chmod +x gradlew # change mode chmod): (+)add (x)exectuable target-file:gradlew
+
       # install JDK 17
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -49,6 +53,10 @@ jobs:
       # clone from repo to runner
       - uses: actions/checkout@v4
 
+      # gradlew executable permissions
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
       # install java
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -73,6 +81,10 @@ jobs:
 
       # clone repo
       - uses: actions/checkout@v4
+
+      # gradlew executable permissions
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
       # install Java
       - name: Set up Java
