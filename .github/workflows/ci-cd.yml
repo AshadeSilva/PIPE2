@@ -120,11 +120,15 @@ jobs:
           name: android-debug-apk
           path: androidApp/build/outputs/apk/debug/
 
-      # run command that sends the apk to firebase
-      - name: Distribute to Firebase App Distribution
-        uses: FirebaseExtended/action-app-distribution@v0.6.0
+      # Authenticate using the Service Account
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
         with:
-          appId: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          groups: internal-testers
-          file: ${{ env.APK_PATH }}
+          credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+
+      # Run Firebase CLI via npx
+      - name: Distribute to Firebase App Distribution
+        run: |
+          npx firebase-tools appdistribution:distribute "${{ env.APK_PATH }}" \
+            --app "${{ secrets.FIREBASE_ANDROID_APP_ID }}" \
+            --groups internal-testers
