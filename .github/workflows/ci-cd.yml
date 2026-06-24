@@ -100,7 +100,7 @@ jobs:
       # run the debug tests in shared/src/commonTest
       # run the debug tests in shared/src/androidHostTest
       - name: Run Common & Android Tests
-        run: ./gradlew :shared:test :androidApp:testDebugUnitTest
+        run: ./gradlew :shared:testAndroidHostTest :androidApp:testDebugUnitTest
 
   # --- STAGE: DEPLOY ---
   deploy-android:
