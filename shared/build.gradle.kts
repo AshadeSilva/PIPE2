@@ -18,7 +18,7 @@ kotlin {
         }
     }
     
-    androidLibrary {
+    android {
        namespace = "org.example.pipe2.shared"
        compileSdk = libs.versions.android.compileSdk.get().toInt()
        minSdk = libs.versions.android.minSdk.get().toInt()
@@ -26,17 +26,14 @@ kotlin {
        compilerOptions {
            jvmTarget = JvmTarget.JVM_11
        }
-       androidResources {
-           enable = true
-       }
-       withHostTest {
-           isIncludeAndroidResources = true
-       }
     }
     
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
+        }
+        val androidHostTest by getting {
+            kotlin.srcDirs("src/androidTest/kotlin")
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -52,6 +49,24 @@ kotlin {
             implementation(libs.kotlin.test)
         }
     }
+}
+
+tasks.register("androidTest") {
+    group = "verification"
+    description = "Runs the Android host tests."
+    dependsOn("testAndroidHostTest")
+}
+
+tasks.register("iosTest") {
+    group = "verification"
+    description = "Runs the iOS simulator tests."
+    dependsOn("iosSimulatorArm64Test")
+}
+
+tasks.register("sharedTest") {
+    group = "verification"
+    description = "Runs the common tests (via the Android host)."
+    dependsOn("testAndroidHostTest")
 }
 
 dependencies {
