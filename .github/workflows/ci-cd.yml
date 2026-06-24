@@ -122,11 +122,9 @@ jobs:
 
       # run command that sends the apk to firebase
       - name: Distribute to Firebase App Distribution
-        uses: w9jds/firebase-action@v15.22.1
+        uses: FirebaseExtended/action-app-distribution@v0.6.0
         with:
-          args: >
-            appdistribution:distribute ${{ env.APK_PATH }}
-            --app "${{ secrets.FIREBASE_ANDROID_APP_ID }}"
-            --groups internal-testers
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          appId: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          groups: internal-testers
+          file: ${{ env.APK_PATH }}
