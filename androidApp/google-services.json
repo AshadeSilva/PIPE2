@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "300535801602",
+    "project_id": "pipe1002-220a8",
+    "storage_bucket": "pipe1002-220a8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300535801602:android:ae75b8029aa5d40574841b",
+        "android_client_info": {
+          "package_name": "org.example.pipe2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5nPduXTw68_TFf7qbyU3dA6M_txDqi_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
