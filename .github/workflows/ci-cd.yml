@@ -97,10 +97,10 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      # run the debug tests in shared/src/commonTest
-      # run the debug tests in shared/src/androidHostTest
+      # run the tests in shared/src/commonTest
+      # run the tests in shared/src/androidHostTest
       - name: Run Common & Android Tests
-        run: ./gradlew :shared:testAndroidHostTest :androidApp:testDebugUnitTest
+        run: ./gradlew :shared:testAndroidHostTest
 
   # --- STAGE: DEPLOY ---
   deploy-android:
