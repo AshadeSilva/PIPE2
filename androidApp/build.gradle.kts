@@ -52,3 +52,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
+afterEvaluate {
+    tasks.matching { it.name.contains("processDebugGoogleServices") }.configureEach {
+        enabled = false
+    }
+}
