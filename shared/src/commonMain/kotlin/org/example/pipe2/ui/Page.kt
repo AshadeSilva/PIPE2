@@ -48,6 +48,496 @@ fun BoxScope.StudentsPage() {
         Button(onClick = { alarmVm.toggle() }) {
             Text(alarmVm.wardenActivateButtonText())
         }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+        Button(onClick = { alarmVm.toggle() }) {
+            Text(alarmVm.wardenActivateButtonText())
+        }
+
     }
 }
 
