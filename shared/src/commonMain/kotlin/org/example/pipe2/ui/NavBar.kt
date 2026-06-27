@@ -14,8 +14,8 @@ fun BottomNavBar(pages: List<Page>, currentPage: MutableState<Page>) {
     NavigationBar {
         for (page in pages){
             NavigationBarItem(
-                icon = { Icon(Icons.Default.Home, "home") },
-                label = {"home screen"},
+                icon = { Icon(page.icon, "home") },
+                label = {"screen"},
                 selected = currentPage.value == page,
                 onClick = { currentPage.value = page }
                 )
