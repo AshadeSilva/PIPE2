@@ -24,7 +24,7 @@ kotlin {
        minSdk = libs.versions.android.minSdk.get().toInt()
     
        compilerOptions {
-           jvmTarget = JvmTarget.JVM_11
+           jvmTarget = JvmTarget.JVM_17
        }
        withHostTest {}
     }
@@ -32,6 +32,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
+            implementation(project.dependencies.platform(libs.firebase.bom))
         }
         val androidHostTest by getting {
             kotlin.srcDirs("src/androidTest/kotlin")
@@ -46,9 +47,13 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.firebase.auth)
+            implementation(libs.firebase.firestore)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.firebase.auth)
+            implementation(libs.firebase.firestore)
         }
     }
 }

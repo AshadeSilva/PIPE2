@@ -16,6 +16,8 @@ junit = "4.13.2"
 kotlin = "2.4.0"
 material3 = "1.11.0-alpha07"
 googleServices = "4.4.2"
+firebase-gitlive-sdk = "2.1.0"
+firebase-bom = "33.9.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -38,6 +40,9 @@ androidx-material-icons-extended = { module = "androidx.compose.material:materia
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
 compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
+firebase-auth = {module = "dev.gitlive:firebase-auth", version.ref = "firebase-gitlive-sdk" }
+firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebase-gitlive-sdk" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -4,11 +4,11 @@ name: KMP CI/CD
 env:
   APK_PATH: androidApp/build/outputs/apk/release/androidApp-release.apk
 
-# run this workflow when I push to main
+# run this workflow when I push to any branch
 on:
   push:
     branches:
-      - main
+      - '**'
 
 jobs:
   # --- STAGE: COMPILE ---
@@ -106,7 +106,7 @@ jobs:
   deploy-android:
     name: "Deploy via Firebase"
     needs: [test, compile-android] # do not run if test does not run successfully
-    if: github.ref == 'refs/heads/main' # only deploy if on main (sanity check)
+    if: github.ref == 'refs/heads/main' # only deploy if on main
     runs-on: ubuntu-latest # run the steps on linux
 
     steps:
