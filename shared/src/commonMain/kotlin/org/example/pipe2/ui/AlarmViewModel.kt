@@ -9,6 +9,7 @@ import org.example.pipe2.logic.alarmStates.AlarmState
 import org.example.pipe2.logic.alarmStates.DeactiveState
 import org.example.pipe2.utils.logDebug
 
+// is alarm activated, off or post-alarm
 class AlarmViewModel: ViewModel() {
     var state by mutableStateOf<AlarmState>(DeactiveState())
     fun isActive() = state.isActive
@@ -20,7 +21,6 @@ class AlarmViewModel: ViewModel() {
         }
         logDebug("ASHADEBUG", "State toggled! New isActive = ${isActive()}")
     }
-
     fun wardenActivateButtonText(): String {
         return state.wardenActivateButton
     }

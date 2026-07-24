@@ -20,6 +20,10 @@ dependencies {
     implementation(libs.compose.uiToolingPreview)
     debugImplementation(libs.compose.uiTooling)
     implementation(libs.androidx.material.icons.extended)
+    
+    // Added Firebase dependencies
+    implementation(platform(libs.firebase.bom))
+    implementation("com.google.firebase:firebase-common-ktx")
 }
 
 android {
