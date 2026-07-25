@@ -15,7 +15,7 @@ fun BottomNavBar(pages: List<Page>, currentPage: MutableState<Page>) {
         for (page in pages){
             NavigationBarItem(
                 icon = { Icon(page.icon, "home") },
-                label = {"screen"},
+                //label = {"screen"},
                 selected = currentPage.value == page,
                 onClick = { currentPage.value = page }
                 )
