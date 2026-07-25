@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.example.pipe2.ui.contexts.LocalAppContext
+import org.example.pipe2.ui.generalLayout.TitleBar
 
 @Composable
 fun BoxScope.StudentsPage() {
@@ -18,8 +19,9 @@ fun BoxScope.StudentsPage() {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
+        TitleBar()
         Text("Your Students")
         Button(onClick = { alarmVm.toggle() }) {
             Text(alarmVm.wardenActivateButtonText())

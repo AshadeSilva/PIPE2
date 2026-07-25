@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import org.example.pipe2.ui.contexts.LocalAppContext
-import org.example.pipe2.ui.theme.ErrorRed
-import org.example.pipe2.ui.theme.Typography
 
 @Composable
 fun BoxScope.LogInPage() {
@@ -29,7 +28,7 @@ fun BoxScope.LogInPage() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ){
-        Text("Sign in", style = Typography.bodyLarge)
+        Text("Sign in", style = MaterialTheme.typography.headlineMedium)
 
         Button(
             onClick = {
@@ -78,7 +77,7 @@ fun BoxScope.LogInPage() {
 
         // Display error message
         auth.errorMessage?.let {
-            Text(it, color = ErrorRed)
+            Text(it, color = MaterialTheme.colorScheme.error)
         }
     }
 }

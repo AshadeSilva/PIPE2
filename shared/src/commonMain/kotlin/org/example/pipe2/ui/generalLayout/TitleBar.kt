@@ -8,33 +8,27 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.logic.account.AccountType
 import org.example.pipe2.ui.contexts.LocalAppContext
 
 @Composable
-fun InfoBar() {
+fun TitleBar() {
     val context = LocalAppContext.current
-    val user = context.user
-    var accountTypeData by remember { mutableStateOf<AccountType?>(null) }
-    
-    LaunchedEffect(user) {
-        accountTypeData = user.getAccountType()
-    }
+    val alarmVm = context.alarm
 
     Surface(
-        color = accountTypeData?.colour ?: MaterialTheme.colorScheme.surfaceVariant,
+        color = MaterialTheme.colorScheme.surface,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 2.dp),
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = accountTypeData?.infoBar ?: "...",
-                style = MaterialTheme.typography.bodyMedium
+                text = alarmVm.stateName(),
+                style = MaterialTheme.typography.bodyLarge
             )
         }
     }

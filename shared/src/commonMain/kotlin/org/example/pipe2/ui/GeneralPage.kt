@@ -20,8 +20,6 @@ import org.example.pipe2.ui.generalLayout.BottomNavBar
 import org.example.pipe2.ui.generalLayout.InfoBar
 import org.example.pipe2.ui.generalLayout.Page
 import org.example.pipe2.ui.theme.AppTheme
-import org.example.pipe2.ui.theme.Background
-import org.example.pipe2.ui.theme.Typography
 
 @Composable
 @Preview
@@ -35,14 +33,13 @@ fun GeneralPage() {
 
         Column(
             modifier = Modifier
-                .background( Background)
+                .background(MaterialTheme.colorScheme.background)
                 .safeContentPadding()
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             InfoBar()
-//            TitleBar()
             Box(
                 modifier = Modifier
                     .weight(1f)

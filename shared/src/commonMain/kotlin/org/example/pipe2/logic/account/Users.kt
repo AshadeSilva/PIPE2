@@ -1,9 +1,13 @@
 package org.example.pipe2.logic.account
 
+import androidx.compose.ui.graphics.Color
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.firestore.firestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.example.pipe2.ui.theme.Student
+import org.example.pipe2.ui.theme.Warden
+import org.example.pipe2.ui.theme.White
 
 class Users(private val auth: Authentication) {
 
@@ -20,7 +24,7 @@ class Users(private val auth: Authentication) {
 
 
     suspend fun getAccountType(): AccountType {
-        val uid = auth.currentUser?.uid ?: return AccountType.none
+        val uid = auth.currentUser?.uid ?: return AccountType.None
         
         return try {val snapshot = Firebase.firestore
             .collection("users")
@@ -31,20 +35,20 @@ class Users(private val auth: Authentication) {
             val typeString: String? = snapshot.get("account_type")
 
             for (type in AccountType.entries){
-                if (type.name == typeString){
+                if (type.firestormName == typeString){
                     return type
                 }
             }
-            return AccountType.none
+            return AccountType.None
 
         } catch (e: Exception) {
-            AccountType.none
+            AccountType.None
         }
     }
 }
 
-enum class AccountType(name: String) {
-    none("none"),
-    student("student"),
-    warden("warden")
+enum class AccountType(val infoBar: String, val firestormName: String, val colour: Color) {
+    None("none", "none", White),
+    Student("STUDENT", "student", org.example.pipe2.ui.theme.Student),
+    Warden("WARDEN", "warden", org.example.pipe2.ui.theme.Warden)
 }
