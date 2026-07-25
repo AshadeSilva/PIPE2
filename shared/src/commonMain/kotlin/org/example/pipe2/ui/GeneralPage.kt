@@ -14,25 +14,34 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import org.example.pipe2.ui.contexts.LocalAppContext
+import org.example.pipe2.ui.contexts.rememberAppContext
+import org.example.pipe2.ui.generalLayout.BottomNavBar
+import org.example.pipe2.ui.generalLayout.InfoBar
+import org.example.pipe2.ui.generalLayout.Page
+import org.example.pipe2.ui.theme.AppTheme
+import org.example.pipe2.ui.theme.Background
+import org.example.pipe2.ui.theme.Typography
 
 @Composable
 @Preview
 fun GeneralPage() {
-    MaterialTheme {
-
-        val currentScreen = remember { mutableStateOf<Page>(Page.Students)}
-        val screens = listOf(Page.Students, Page.SelfRegister, Page.LogIn)
-
+    val appContext = rememberAppContext()
+    
+    CompositionLocalProvider(LocalAppContext provides appContext) {
+        AppTheme {
+            val currentScreen = remember { mutableStateOf<Page>(Page.Students) }
+            val screens = listOf(Page.Students, Page.SelfRegister, Page.LogIn)
 
         Column(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
+                .background( Background)
                 .safeContentPadding()
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-//            InfoBar()
+            InfoBar()
 //            TitleBar()
             Box(
                 modifier = Modifier
@@ -47,4 +56,5 @@ fun GeneralPage() {
             BottomNavBar(screens, currentScreen)
         }
     }
+}
 }

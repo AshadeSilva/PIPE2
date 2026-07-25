@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import dev.gitlive.firebase.firestore.firestore
 import kotlinx.coroutines.launch
+import dev.gitlive.firebase.auth.FirebaseUser
 
 
 class Authentication: ViewModel() {
@@ -18,6 +19,7 @@ class Authentication: ViewModel() {
     var password by mutableStateOf("")
     var isLoading by mutableStateOf(false)
     var errorMessage by mutableStateOf<String?>(null)
+    var currentUser by mutableStateOf<FirebaseUser?>(Firebase.auth.currentUser)
 
     private val auth = Firebase.auth
     private val firestore = Firebase.firestore
@@ -41,6 +43,7 @@ class Authentication: ViewModel() {
 
                 val user = result.user
                 if (user != null) {
+                    currentUser = user
                     // Check and create Firestore entry if it doesn't exist
                     val userDoc = firestore.collection("users").document(user.uid)
                     if (!userDoc.get().exists) {

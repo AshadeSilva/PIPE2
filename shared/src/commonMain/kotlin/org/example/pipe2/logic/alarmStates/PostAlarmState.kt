@@ -1,12 +1,12 @@
 package org.example.pipe2.logic.alarmStates
 
-class ActiveState: AlarmState {
+class PostAlarmState: AlarmState {
     override val wardenActivateButton: String
-        get() = "End Alarm"
+        get() = "Clear"
     override val nextState: AlarmState
-        get() = PostAlarmState()
+        get() = DeactiveState()
     override val isActive: Boolean
         get() = true
     override val stateName: String
-        get() = "ALARM ACTIVATED"
+        get() = "Post Alarm"
 }

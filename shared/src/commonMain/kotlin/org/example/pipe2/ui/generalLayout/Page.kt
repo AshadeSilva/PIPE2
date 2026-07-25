@@ -1,20 +1,15 @@
-package org.example.pipe2.ui
+package org.example.pipe2.ui.generalLayout
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import org.example.pipe2.ui.LogInPage
+import org.example.pipe2.ui.StudentsPage
 
 sealed class Page(val name: String, val icon: ImageVector) {
     @Composable

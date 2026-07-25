@@ -10,10 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import org.example.pipe2.ui.contexts.LocalAppContext
 
 @Composable
 fun BoxScope.StudentsPage() {
-    val alarmVm = remember { AlarmViewModel() }
+    val alarmVm = LocalAppContext.current.alarm
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,

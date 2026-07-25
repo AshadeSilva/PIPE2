@@ -13,12 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import org.example.pipe2.logic.account.Authentication
+import org.example.pipe2.ui.contexts.LocalAppContext
+import org.example.pipe2.ui.theme.ErrorRed
+import org.example.pipe2.ui.theme.Typography
 
 @Composable
 fun BoxScope.LogInPage() {
-    val auth: Authentication = viewModel { Authentication() }
+    val auth = LocalAppContext.current.auth
     
     Column (
         modifier = Modifier
@@ -28,8 +29,28 @@ fun BoxScope.LogInPage() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ){
-        Text("Who are You?", style = androidx.compose.material3.MaterialTheme.typography.headlineMedium)
-        
+        Text("Sign in", style = Typography.bodyLarge)
+
+        Button(
+            onClick = {
+                auth.email = "warden@imperial.ac.uk"
+                auth.password = "warden"
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(if (auth.isLoading) "Signing in..." else "Log In As Warden")
+        }
+
+        Button(
+            onClick = {
+                auth.email = "student@imperial.ac.uk"
+                auth.password = "student"
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(if (auth.isLoading) "Signing in..." else "Log In As Student")
+        }
+
         OutlinedTextField(
             value = auth.email,
             onValueChange = { auth.email = it },
@@ -57,7 +78,7 @@ fun BoxScope.LogInPage() {
 
         // Display error message
         auth.errorMessage?.let {
-            Text(it, color = androidx.compose.ui.graphics.Color.Red)
+            Text(it, color = ErrorRed)
         }
     }
 }
