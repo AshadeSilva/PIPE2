@@ -15,14 +15,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         
-        val options = FirebaseOptions.Builder()
-            .setApiKey("AIzaSyB5nPduXTw68_TFf7qbyU3dA6M_txDqi_8")
-            .setApplicationId("1:300535801602:android:ae75b8029aa5d40574841b")
-            .setProjectId("pipe1002-220a8")
-            .setStorageBucket("pipe1002-220a8.firebasestorage.app")
-            .build()
+        if (FirebaseApp.getApps(this).isEmpty()) {
+            val options = FirebaseOptions.Builder()
+                .setApiKey("AIzaSyB5nPduXTw68_TFf7qbyU3dA6M_txDqi_8")
+                .setApplicationId("1:300535801602:android:ae75b8029aa5d40574841b")
+                .setProjectId("pipe1002-220a8")
+                .setStorageBucket("pipe1002-220a8.firebasestorage.app")
+                .build()
 
-        FirebaseApp.initializeApp(this, options)
+            FirebaseApp.initializeApp(this, options)
+        }
 
         setContent {
             GeneralPage()
