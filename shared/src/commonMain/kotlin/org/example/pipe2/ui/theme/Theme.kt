@@ -3,20 +3,18 @@ package org.example.pipe2.ui.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 
 private val DarkColorScheme = darkColorScheme(
-    primary = InfoBar,
+    primary = MediumGrey,
     secondary = ChangeColor,
     tertiary = ChangeColor,
     surfaceVariant = ChangeColor,
     error = ErrorRed,
     background = Background,
     surface = DarkGrey,
-    onPrimary = White, // active alarm button text
-    onSecondary = ChangeColor,
+    onPrimary = DarkGrey, // active alarm button text
+    onSecondary = White,
     onTertiary = ChangeColor,
     onBackground = ChangeColor,
     onSurface = White,

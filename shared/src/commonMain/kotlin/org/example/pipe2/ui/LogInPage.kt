@@ -6,9 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,8 +38,13 @@ fun BoxScope.LogInPage() {
             onClick = {
                 auth.email = "warden@imperial.ac.uk"
                 auth.password = "warden"
+                auth.signInOrSignUp()
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+                contentColor = MaterialTheme.colorScheme.onSecondary
+            )
         ) {
             Text(if (auth.isLoading) "Signing in..." else "Log In As Warden")
         }
@@ -44,8 +53,13 @@ fun BoxScope.LogInPage() {
             onClick = {
                 auth.email = "student@imperial.ac.uk"
                 auth.password = "student"
+                auth.signInOrSignUp()
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+                contentColor = MaterialTheme.colorScheme.onSecondary
+            )
         ) {
             Text(if (auth.isLoading) "Signing in..." else "Log In As Student")
         }
@@ -55,7 +69,11 @@ fun BoxScope.LogInPage() {
             onValueChange = { auth.email = it },
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth(),
-            singleLine = true
+            singleLine = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                focusedTextColor = MaterialTheme.colorScheme.onPrimary
+            )
         )
 
         OutlinedTextField(
@@ -64,13 +82,21 @@ fun BoxScope.LogInPage() {
             label = { Text("Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
-            singleLine = true
+            singleLine = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                focusedTextColor = MaterialTheme.colorScheme.onPrimary
+            )
         )
 
         Button(
             onClick = { auth.signInOrSignUp() },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !auth.isLoading
+            enabled = !auth.isLoading,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+                contentColor = MaterialTheme.colorScheme.onSecondary
+            )
         ) {
             Text(if (auth.isLoading) "Processing..." else "Log In / Sign Up")
         }

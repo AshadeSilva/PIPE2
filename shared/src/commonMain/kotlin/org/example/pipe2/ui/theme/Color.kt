@@ -17,7 +17,7 @@ val DarkGrey = Color(0xFF222222)
 val SurfaceVariantDark = Color(0xFF49454F)
 val ErrorRed = Color(0xFFB3261E)
 
-val InfoBar = Color(0xFF636363)
+val MediumGrey = Color(0xFF636363)
 val Background = Color(0xFFD9D9D9)
 val Text = Color(0xFFFFFFFF)
 val AlarmButton = Color(0xFFB8041F)

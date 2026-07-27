@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.example.pipe2.ui.LogInPage
+import org.example.pipe2.ui.SelfRegisterPage
 import org.example.pipe2.ui.StudentsPage
 
 sealed class Page(val name: String, val icon: ImageVector) {
@@ -31,9 +32,3 @@ sealed class Page(val name: String, val icon: ImageVector) {
     }
 }
 
-
-
-@Composable
-fun BoxScope.SelfRegisterPage() {
-    Text("Register as Safe")
-}

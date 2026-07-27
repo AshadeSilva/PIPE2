@@ -1,4 +1,4 @@
-package org.example.pipe2.logic.account
+package org.example.pipe2.data.account
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.semantics.password
@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import dev.gitlive.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 import dev.gitlive.firebase.auth.FirebaseUser
+import dev.gitlive.firebase.firestore.FieldValue
 
 
 class Authentication: ViewModel() {
@@ -23,6 +24,14 @@ class Authentication: ViewModel() {
 
     private val auth = Firebase.auth
     private val firestore = Firebase.firestore
+
+    init {
+        viewModelScope.launch {
+            auth.authStateChanged.collect {
+                currentUser = it
+            }
+        }
+    }
 
     fun signInOrSignUp() {
 
@@ -50,7 +59,7 @@ class Authentication: ViewModel() {
                         userDoc.set(mapOf(
                             "email" to email,
                             "uid" to user.uid,
-                            "createdAt" to dev.gitlive.firebase.firestore.FieldValue.serverTimestamp
+                            "createdAt" to FieldValue.serverTimestamp
                         ))
                     }
                 }
