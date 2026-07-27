@@ -11,11 +11,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import org.example.pipe2.data.account.AccountType
 import org.example.pipe2.ui.contexts.LocalAppContext
 import org.example.pipe2.ui.contexts.rememberAppContext
 import org.example.pipe2.ui.generalLayout.BottomNavBar

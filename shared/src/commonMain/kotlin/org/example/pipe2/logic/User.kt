@@ -1,4 +1,4 @@
-package org.example.pipe2.data.account
+package org.example.pipe2.logic
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.example.pipe2.data.account.Authentication
 import org.example.pipe2.ui.generalLayout.Page
 import org.example.pipe2.ui.theme.White
 

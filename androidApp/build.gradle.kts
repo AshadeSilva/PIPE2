@@ -23,6 +23,7 @@ dependencies {
     
     // Added Firebase dependencies
     implementation(platform(libs.firebase.bom))
+    implementation(libs.google.firebase.firestore)
     implementation("com.google.firebase:firebase-common-ktx")
 }
 

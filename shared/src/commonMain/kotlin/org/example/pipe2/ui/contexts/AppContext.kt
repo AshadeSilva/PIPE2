@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.example.pipe2.data.account.Authentication
-import org.example.pipe2.data.account.User
+import org.example.pipe2.logic.User
 
 class AppContext(
     val auth: Authentication,

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.googleServices)
 }
 
 kotlin {
@@ -33,6 +34,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.google.firebase.firestore)
         }
         val androidHostTest by getting {
             kotlin.srcDirs("src/androidTest/kotlin")
