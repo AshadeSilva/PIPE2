@@ -1,0 +1,50 @@
+package org.example.pipe2.logic
+
+import androidx.lifecycle.Lifecycle
+import dev.gitlive.firebase.firestore.DocumentSnapshot
+import dev.gitlive.firebase.firestore.Timestamp
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format
+import kotlinx.datetime.format.char
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Instant
+
+interface Event {
+    val sender: String
+    val time: Timestamp
+    fun printTime(): String {
+        val dateTimeFormat = LocalDateTime.Format {
+            hour(); char(':'); minute(); char(' ')
+            day(); char('/'); monthNumber(); char('/'); yearTwoDigits(2000)
+        }
+        val instant = Instant.fromEpochSeconds(time.seconds, time.nanoseconds)
+        val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+        return localDateTime.format(dateTimeFormat)
+    }
+
+}
+
+class StatusUpdateEvent(
+    override val sender: String,
+    override val time: Timestamp,
+    val student: String,
+    val status: Status
+): Event
+
+class MessageEvent(
+    override val sender: String,
+    override val time: Timestamp,
+    val recipient: String,
+    val contents: String
+) : Event
+
+class StartEvent(
+    override val sender: String,
+    override val time: Timestamp
+) : Event
+
+class EndEvent(
+    override val sender: String,
+    override val time: Timestamp
+) : Event

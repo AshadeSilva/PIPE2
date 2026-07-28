@@ -1,7 +1,6 @@
-package org.example.pipe2.ui.generalLayout
+package org.example.pipe2.ui.students
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -9,7 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.ui.contexts.LocalAppContext
+import org.example.pipe2.logic.LocalAppContext
 
 @Composable
 fun StatusBar() {

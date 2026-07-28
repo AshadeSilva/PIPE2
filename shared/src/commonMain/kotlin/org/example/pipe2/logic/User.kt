@@ -83,5 +83,5 @@ class User(private val auth: Authentication) : ViewModel() {
 enum class AccountType(val firestormName: String, val colour: Color, val pages: List<Page>) {
     None( "none", White, listOf(Page.LogIn)),
     Student( "student", org.example.pipe2.ui.theme.Student, listOf(Page.SelfRegister, Page.LogIn)),
-    Warden( "warden", org.example.pipe2.ui.theme.Warden, listOf(Page.Students, Page.LogIn))
+    Warden( "warden", org.example.pipe2.ui.theme.Warden, listOf(Page.Students, Page.LogIn, Page.LogView))
 }

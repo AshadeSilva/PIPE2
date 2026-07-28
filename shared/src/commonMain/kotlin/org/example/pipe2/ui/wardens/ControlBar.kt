@@ -1,4 +1,4 @@
-package org.example.pipe2.ui.generalLayout
+package org.example.pipe2.ui.wardens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -10,7 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.ui.contexts.LocalAppContext
+import org.example.pipe2.logic.LocalAppContext
 
 @Composable
 fun ControlBar() {
@@ -29,7 +29,7 @@ fun ControlBar() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = alarmVm.stateName(),
+                text = alarmVm.state.stateName,
                 style = MaterialTheme.typography.bodyLarge
             )
 
@@ -39,7 +39,7 @@ fun ControlBar() {
                     contentColor = MaterialTheme.colorScheme.onSecondary
                 )
             ) {
-                Text(alarmVm.wardenActivateButtonText())
+                Text(alarmVm.state.wardenActivateButton)
             }
         }
     }
