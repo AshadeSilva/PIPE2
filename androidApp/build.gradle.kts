@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.googleServices)
+    alias(libs.plugins.firebaseCrashlytics)
 }
 
 kotlin {
@@ -24,6 +25,8 @@ dependencies {
     // Added Firebase dependencies
     implementation(platform(libs.firebase.bom))
     implementation(libs.google.firebase.firestore)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
     implementation("com.google.firebase:firebase-common-ktx")
 }
 
@@ -60,8 +63,8 @@ android {
 }
 
 afterEvaluate {
-    // Disable for both debug and release to ensure manual init is always used
-    tasks.matching { it.name.contains("GoogleServices") }.configureEach {
+    // disabled on purpose for local test version
+    tasks.matching { it.name.contains("processDebugGoogleServices") }.configureEach {
         enabled = false
     }
 }

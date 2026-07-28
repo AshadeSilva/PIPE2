@@ -15,9 +15,10 @@ androidxComposeIcons = "1.7.8"
 junit = "4.13.2"
 kotlin = "2.4.0"
 material3 = "1.11.0-alpha07"
-googleServices = "4.4.2"
-firebase-gitlive-sdk = "2.1.0"
-firebase-bom = "33.9.0"
+googleServices = "4.5.0"
+firebaseCrashlytics = "3.0.7"
+firebase-gitlive-sdk = "2.5.0"
+firebase-bom = "34.16.0"
 kotlinx-datetime = "0.7.1"
 
 [libraries]
@@ -45,6 +46,8 @@ firebase-auth = {module = "dev.gitlive:firebase-auth", version.ref = "firebase-g
 firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebase-gitlive-sdk" }
 google-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
 [plugins]
@@ -54,3 +57,4 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMul
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 googleServices = {id = "com.google.gms.google-services", version.ref = "googleServices"}
+firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics" }
