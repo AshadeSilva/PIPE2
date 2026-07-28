@@ -11,6 +11,5 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun SelfRegisterPage1() {
-    StatusBar()
     Text("Your Students")
 }

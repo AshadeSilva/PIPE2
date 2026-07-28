@@ -19,7 +19,7 @@ import org.example.pipe2.ui.generalLayout.Page
 import org.example.pipe2.ui.theme.White
 
 class User(private val auth: Authentication) : ViewModel() {
-    var accountType by mutableStateOf(AccountType.None)
+    var accountType by mutableStateOf(AccountView.None)
     var username by mutableStateOf("")
     var building by mutableStateOf("")
     var email by mutableStateOf("")
@@ -57,9 +57,9 @@ class User(private val auth: Authentication) : ViewModel() {
             if (typeString == null) {
                 resetFields()
             } else {
-                accountType = AccountType.entries.find { 
+                accountType = AccountView.entries.find {
                     it.firestormName.equals(typeString, ignoreCase = true) 
-                } ?: AccountType.None
+                } ?: AccountView.None
                 
                 username = snapshot.get("username") ?: ""
                 building = snapshot.get("building") ?: ""
@@ -72,7 +72,7 @@ class User(private val auth: Authentication) : ViewModel() {
     }
 
     private fun resetFields() {
-        accountType = AccountType.None
+        accountType = AccountView.None
         username = ""
         building = ""
         email = ""
@@ -80,7 +80,7 @@ class User(private val auth: Authentication) : ViewModel() {
 
 }
 
-enum class AccountType(val firestormName: String, val colour: Color, val pages: List<Page>) {
+enum class AccountView(val firestormName: String, val colour: Color, val pages: List<Page>) {
     None( "none", White, listOf(Page.LogIn)),
     Student( "student", org.example.pipe2.ui.theme.Student, listOf(Page.SelfRegister, Page.LogIn)),
     Warden( "warden", org.example.pipe2.ui.theme.Warden, listOf(Page.Students, Page.LogIn, Page.LogView))

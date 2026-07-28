@@ -12,6 +12,5 @@ import org.example.pipe2.logic.LocalAppContext
 
 @Composable
 fun StudentsPage1() {
-    ControlBar()
     Text("Your Students")
 }

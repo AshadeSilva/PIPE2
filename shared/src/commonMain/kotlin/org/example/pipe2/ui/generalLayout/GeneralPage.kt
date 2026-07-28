@@ -44,6 +44,7 @@ fun GeneralPage() {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 InfoBar()
+                currentScreen.value.bar()
                 Column(
                     modifier = Modifier
                         .weight(1f)
