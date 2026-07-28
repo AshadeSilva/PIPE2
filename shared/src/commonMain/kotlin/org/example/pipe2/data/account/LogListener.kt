@@ -12,6 +12,7 @@ import org.example.pipe2.logic.MessageEvent
 import org.example.pipe2.logic.StartEvent
 import org.example.pipe2.logic.StatusUpdateEvent
 import org.example.pipe2.logic.toStatus
+import org.example.pipe2.utils.logDebug
 
 class LogListener (private val alarmId: String) {
     fun listen(): Flow<Event> = Firebase.firestore
@@ -35,6 +36,8 @@ fun DocumentSnapshot.toEvent(): Event? {
     val type:String = this.get("type")
     val sender: String = this.get("sender")
     val time: Timestamp = this.get("time")
+
+    logDebug("ASHADEBUG", "event $type")
 
     return when (type) {
         "alarm_start" -> StartEvent(sender, time)

@@ -12,13 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.example.pipe2.logic.Event
 import org.example.pipe2.logic.LocalAppContext
+import org.example.pipe2.utils.logDebug
 
 @Composable
-fun LogPage1() {
+fun LogPage() {
     val log = LocalAppContext.current.log
     Text("Current Alarm Log", style = MaterialTheme.typography.headlineMedium)
+    logDebug("ASHADEBUG", "Log view running - yes")
 
     log.events.forEach {
+        logDebug("ASHADEBUG", "Log view loop running")
         LogRow(it)
         HorizontalDivider()
     }

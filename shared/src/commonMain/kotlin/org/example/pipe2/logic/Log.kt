@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.example.pipe2.data.account.LogListener
+import org.example.pipe2.utils.logDebug
 
 class Log (private val listener: LogListener): ViewModel() {
     val events: MutableList<Event> = mutableListOf()
 
     fun updateLog() {
+        logDebug("ASHADEBUG", "Log running")
         viewModelScope.launch {
             listener.listen().collect { events.add(it) } }
     }

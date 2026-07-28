@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import org.example.pipe2.data.account.Authentication
 import org.example.pipe2.logic.LocalAppContext
 
 @Composable
@@ -18,61 +20,15 @@ fun LoginPage() {
 
     Text("Sign in", style = MaterialTheme.typography.headlineMedium)
 
-    Button(
-        onClick = {
-            auth.email = "warden@imperial.ac.uk"
-            auth.password = "warden"
-            auth.signInOrSignUp()
-        },
-        modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.onPrimary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
-        )
-    ) {
-        Text(if (auth.isLoading) "Signing in..." else "Log In As Warden")
-    }
+    // dev cheat buttons to quickly sign in
+    devSignIn("warden")
+    devSignIn("student")
 
-    Button(
-        onClick = {
-            auth.email = "student@imperial.ac.uk"
-            auth.password = "student"
-            auth.signInOrSignUp()
-        },
-        modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.onPrimary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
-        )
-    ) {
-        Text(if (auth.isLoading) "Signing in..." else "Log In As Student")
-    }
+    // type in email/password
+    signInTextField("Name", auth.email, {auth.email = it}, VisualTransformation.None)
+    signInTextField("Password", auth.password, {auth.password = it}, PasswordVisualTransformation())
 
-    OutlinedTextField(
-        value = auth.email,
-        onValueChange = { auth.email = it },
-        label = { Text("Email") },
-        modifier = Modifier.fillMaxWidth(),
-        singleLine = true,
-        colors = OutlinedTextFieldDefaults.colors(
-            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
-            focusedTextColor = MaterialTheme.colorScheme.onPrimary
-        )
-    )
-
-    OutlinedTextField(
-        value = auth.password,
-        onValueChange = { auth.password = it },
-        label = { Text("Password") },
-        visualTransformation = PasswordVisualTransformation(),
-        modifier = Modifier.fillMaxWidth(),
-        singleLine = true,
-        colors = OutlinedTextFieldDefaults.colors(
-            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
-            focusedTextColor = MaterialTheme.colorScheme.onPrimary
-        )
-    )
-
+    // submit button
     Button(
         onClick = { auth.signInOrSignUp() },
         modifier = Modifier.fillMaxWidth(),
@@ -84,10 +40,44 @@ fun LoginPage() {
     ) {
         Text(if (auth.isLoading) "Processing..." else "Log In / Sign Up")
     }
-
-    // Display error message
     auth.errorMessage?.let {
         Text(it, color = MaterialTheme.colorScheme.error)
+    }
+}
+
+@Composable
+private fun signInTextField(name: String, getSign: String, setSign: (String) -> Unit, hide: VisualTransformation ) {
+    OutlinedTextField(
+        value = getSign,
+        onValueChange = setSign,
+        label = { Text(name) },
+        modifier = Modifier.fillMaxWidth(),
+        visualTransformation = hide,
+        singleLine = true,
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+            focusedTextColor = MaterialTheme.colorScheme.onPrimary
+        )
+    )
+}
+
+@Composable
+private fun devSignIn(name: String) {
+    val auth = LocalAppContext.current.auth
+
+    Button(
+        onClick = {
+            auth.email = "$name@imperial.ac.uk"
+            auth.password = name
+            auth.signInOrSignUp()
+        },
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
+        )
+    ) {
+        Text(if (auth.isLoading) "Signing in..." else "Log In As $name")
     }
 }
 
