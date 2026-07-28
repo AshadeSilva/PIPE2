@@ -60,8 +60,8 @@ android {
 }
 
 afterEvaluate {
-    // disabled on purpose for local test version
-    tasks.matching { it.name.contains("processDebugGoogleServices") }.configureEach {
+    // Disable for both debug and release to ensure manual init is always used
+    tasks.matching { it.name.contains("GoogleServices") }.configureEach {
         enabled = false
     }
 }
