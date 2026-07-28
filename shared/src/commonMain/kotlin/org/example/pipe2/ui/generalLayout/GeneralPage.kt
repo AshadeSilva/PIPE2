@@ -10,54 +10,43 @@ import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.data.account.LogListener
-import org.example.pipe2.ui.bars.BottomNavBar
-import org.example.pipe2.ui.theme.AppTheme
+import org.example.pipe2.logic.AppContext
 import org.example.pipe2.logic.LocalAppContext
-import org.example.pipe2.logic.Log
-import org.example.pipe2.logic.rememberAppContext
+import org.example.pipe2.ui.bars.BottomNavBar
 
 @Composable
-@Preview
 fun GeneralPage() {
-    val logListener = LogListener("example_alarm")
-    val log = Log(logListener)
-    val appContext = rememberAppContext(log)
+    val currentScreen = remember { mutableStateOf<Page>(Page.LogIn) }
+    val user = LocalAppContext.current.user
+    val screens: List<Page> = user.accountType.pages
 
-    CompositionLocalProvider(LocalAppContext provides appContext) {
-        AppTheme {
-            val currentScreen = remember { mutableStateOf<Page>(Page.LogIn) }
-            val user = appContext.user
-            val screens: List<Page> = user.accountType.pages
-
-            Column(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.background)
-                    .safeContentPadding()
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                InfoBar()
-                currentScreen.value.bar()
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState())
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top
-                ) {
-                    currentScreen.value.Contents()
-                }
-                BottomNavBar(screens, currentScreen)
-            }
+    Column(
+        modifier = Modifier.Companion
+            .background(MaterialTheme.colorScheme.background)
+            .safeContentPadding()
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Companion.CenterHorizontally,
+    ) {
+        InfoBar()
+        currentScreen.value.bar()
+        Column(
+            modifier = Modifier.Companion
+                .weight(1f)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
+            horizontalAlignment = Alignment.Companion.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+            currentScreen.value.Contents()
         }
+        BottomNavBar(screens, currentScreen)
     }
 }

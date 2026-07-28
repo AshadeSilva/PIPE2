@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
-import org.example.pipe2.ui.generalLayout.GeneralPage
+import org.example.pipe2.ui.SetUp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            GeneralPage()
+            SetUp()
         }
     }
 }
@@ -35,5 +35,5 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun AppAndroidPreview() {
-    GeneralPage()
+    SetUp()
 }

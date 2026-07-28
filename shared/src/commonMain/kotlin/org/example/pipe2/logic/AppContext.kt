@@ -10,7 +10,7 @@ class AppContext(
     val auth: Authentication,
     val alarm: AlarmViewModel,
     val user: User,
-    val log: Log
+    val log: LogUpdater
 )
 
 val LocalAppContext = staticCompositionLocalOf<AppContext> {
@@ -18,7 +18,7 @@ val LocalAppContext = staticCompositionLocalOf<AppContext> {
 }
 
 @Composable
-fun rememberAppContext(log: Log): AppContext {
+fun rememberAppContext(log: LogUpdater): AppContext {
     val auth = viewModel { Authentication() }
     val alarm = viewModel { AlarmViewModel() }
     val user = viewModel { User(auth) }

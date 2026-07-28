@@ -1,6 +1,6 @@
 package org.example.pipe2
 
 import androidx.compose.ui.window.ComposeUIViewController
-import org.example.pipe2.ui.generalLayout.GeneralPage
+import org.example.pipe2.ui.SetUp
 
-fun MainViewController() = ComposeUIViewController { GeneralPage() }
+fun MainViewController() = ComposeUIViewController { SetUp() }

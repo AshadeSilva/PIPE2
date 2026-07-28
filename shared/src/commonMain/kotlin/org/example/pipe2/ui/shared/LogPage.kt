@@ -7,6 +7,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,11 +18,10 @@ import org.example.pipe2.utils.logDebug
 @Composable
 fun LogPage() {
     val log = LocalAppContext.current.log
+
     Text("Current Alarm Log", style = MaterialTheme.typography.headlineMedium)
-    logDebug("ASHADEBUG", "Log view running - yes")
 
     log.events.forEach {
-        logDebug("ASHADEBUG", "Log view loop running")
         LogRow(it)
         HorizontalDivider()
     }
@@ -36,13 +36,12 @@ fun LogRow(event: Event) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = event.sender,
+            text = event.name,
             modifier = Modifier.weight(1f)
         )
 
         Text(
-            text = event.printTime(),
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            text = event.printTime()
         )
     }
 }

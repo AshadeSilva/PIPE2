@@ -7,6 +7,7 @@ import dev.gitlive.firebase.firestore.firestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 import org.example.pipe2.logic.EndEvent
+import org.example.pipe2.logic.ErrorEvent
 import org.example.pipe2.logic.Event
 import org.example.pipe2.logic.MessageEvent
 import org.example.pipe2.logic.StartEvent
@@ -14,7 +15,7 @@ import org.example.pipe2.logic.StatusUpdateEvent
 import org.example.pipe2.logic.toStatus
 import org.example.pipe2.utils.logDebug
 
-class LogListener (private val alarmId: String) {
+class LogModel (private val alarmId: String) {
     fun listen(): Flow<Event> = Firebase.firestore
         .collection("activeAlarms")
         .document(alarmId)
@@ -37,8 +38,6 @@ fun DocumentSnapshot.toEvent(): Event? {
     val sender: String = this.get("sender")
     val time: Timestamp = this.get("time")
 
-    logDebug("ASHADEBUG", "event $type")
-
     return when (type) {
         "alarm_start" -> StartEvent(sender, time)
         "alarm_end" -> EndEvent(sender, time)
@@ -49,8 +48,8 @@ fun DocumentSnapshot.toEvent(): Event? {
             StatusUpdateEvent(sender, time,
                 this.get<String>("student"),
                 it)
-        }
-        else -> null
+        } ?: ErrorEvent("", time)
+        else -> ErrorEvent("", time)
     }
 
 }
