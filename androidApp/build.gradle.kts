@@ -27,7 +27,6 @@ dependencies {
     implementation(libs.google.firebase.firestore)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
-    implementation("com.google.firebase:firebase-common-ktx")
 }
 
 android {
