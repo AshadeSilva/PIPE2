@@ -19,9 +19,9 @@ import org.example.pipe2.utils.logDebug
 fun LogPage() {
     val log = LocalAppContext.current.log
 
-    Text("Current Alarm Log", style = MaterialTheme.typography.headlineMedium)
+    Text(log.title, style = MaterialTheme.typography.headlineMedium)
 
-    log.events.forEach {
+    log.log?.events?.forEach {
         LogRow(it)
         HorizontalDivider()
     }

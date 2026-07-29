@@ -70,4 +70,10 @@ class Authentication: ViewModel() {
             }
         }
     }
+
+    fun signOut() {
+        viewModelScope.launch {
+            auth.signOut()
+        }
+    }
 }
