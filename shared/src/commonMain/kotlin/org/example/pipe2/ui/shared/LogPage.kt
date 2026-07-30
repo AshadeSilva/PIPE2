@@ -18,10 +18,9 @@ import org.example.pipe2.utils.logDebug
 @Composable
 fun LogPage() {
     val log = LocalAppContext.current.log
-
     Text(log.title, style = MaterialTheme.typography.headlineMedium)
 
-    log.log?.events?.forEach {
+    log.events.forEach {
         LogRow(it)
         HorizontalDivider()
     }

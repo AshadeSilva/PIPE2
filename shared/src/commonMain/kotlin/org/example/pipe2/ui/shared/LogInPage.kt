@@ -64,14 +64,14 @@ fun LoginPage() {
 
 @Composable
 private fun devFirebaseErrorHandler() {
-    val log = LocalAppContext.current.log.log
-    log?.lastError?.let { error ->
+    val log = LocalAppContext.current.log
+    if (log.error != null) {
         Column(
             modifier = Modifier.padding(top = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             OutlinedTextField(
-                value = "Firestore Error: ${error.message}",
+                value = "Firestore Error: ${log.error?.message}",
                 onValueChange = {},
                 readOnly = true,
                 label = { Text("System Error") },
@@ -84,7 +84,7 @@ private fun devFirebaseErrorHandler() {
                 )
             )
             Button(
-                onClick = { log.triggerCrash() },
+                onClick = { log.crash() },
                 modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.error
