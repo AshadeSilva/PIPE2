@@ -1,4 +1,4 @@
-package org.example.pipe2.data.log
+package org.example.pipe2.logic
 
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.firestore.DocumentSnapshot

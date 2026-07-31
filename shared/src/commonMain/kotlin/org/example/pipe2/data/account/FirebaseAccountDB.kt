@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.example.pipe2.utils.logDebug
 import kotlinx.coroutines.CancellationException
 
 
@@ -25,8 +24,6 @@ class FirebaseAccountDB: AccountDB, ViewModel() {
     init {
         viewModelScope.launch {
             auth.authStateChanged.collectLatest {
-                logDebug("ASHADEBUG", "FirebaseAccountDB: authStateChanged")
-
                 if (it == null) {
                     currentDetails = null
                 }
@@ -57,7 +54,7 @@ class FirebaseAccountDB: AccountDB, ViewModel() {
                             username = result.get("username"),
                             building = result.get("building"),
                             email = result.get("email"),
-                            type = result.get("type")
+                            type = result.get("account_type")
                         )
                     } catch (e: Exception) {
                         currentDetails = null
@@ -84,8 +81,6 @@ class FirebaseAccountDB: AccountDB, ViewModel() {
             linkAccount(user, email)
         }
 
-        logDebug("ASHADEBUG", "FirebaseAccountDB: signInSignUp as ${auth.currentUser?.email ?: "null"}")
-
     }
 
     private suspend fun linkAccount(user: FirebaseUser, email: String){
@@ -97,12 +92,10 @@ class FirebaseAccountDB: AccountDB, ViewModel() {
                 mapOf(
                     "email" to email,
                     "uid" to user.uid,
-                    "type" to "student",
+                    "account_type" to "student",
                     "createdAt" to FieldValue.serverTimestamp
                 )
             )
-        } else {
-            logDebug("ASHADEBUG", "FirebaseAccountDB: User document already exists")
         }
     }
 

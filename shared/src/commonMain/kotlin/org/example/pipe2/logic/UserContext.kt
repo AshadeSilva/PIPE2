@@ -17,14 +17,18 @@ import org.example.pipe2.utils.logDebug
 
 class UserContext(private val accountDB: AccountDB) : ViewModel() {
 
-    // TODO: fill with dummy accounts for now
+    // TODO: will eventually become local storage
     val savedUsers: MutableList<User> = mutableListOf()
     var currentUser by mutableStateOf<User?>(null)
 
     init {
+        observeAccountChanges()
+    }
+
+    private fun observeAccountChanges() {
+        val db = accountDB
         viewModelScope.launch {
-            snapshotFlow { accountDB.currentDetails }.collectLatest {
-                val details = it
+            snapshotFlow { db.currentDetails }.collectLatest { details ->
                 if (details != null) {
                     updateUser(details)
                 } else {
@@ -37,12 +41,16 @@ class UserContext(private val accountDB: AccountDB) : ViewModel() {
     fun updateUser(details: DBResult) {
         // see if we have a local version
         var user = savedUsers.find { it.uid == details.uid }
+
         if (user == null) {
             // else copy remote account locally
             user = when (details.type){
                 "student" -> Student()
                 "warden" -> Warden()
-                else -> null
+                else -> {
+                    logDebug("ASHADEBUG", "new account not made")
+                    null
+                }
             }
             if (user != null) {
                 savedUsers.add(user)
@@ -50,7 +58,6 @@ class UserContext(private val accountDB: AccountDB) : ViewModel() {
         }
         if (user != null){
             user.updateDetails(details)
-
         }
         currentUser = user
         logDebug("ASHADEBUG", "UserContext: user updated to ${user?.username ?: "null"}")

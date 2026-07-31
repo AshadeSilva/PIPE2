@@ -9,10 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.example.pipe2.data.log.FirestoreLog
 import org.example.pipe2.oldLogic.Event
-import org.example.pipe2.oldLogic.UIContext.AccountTheme
-import org.example.pipe2.utils.logDebug
 
 // container for the log to be in. Sometimes empty. Same object throughout
 // type of Log class is chosen in createLog
@@ -22,10 +19,13 @@ class LogContext(user: UserContext) : ViewModel() {
     private var log by mutableStateOf<Log?>(null)
 
     init {
+        observeUserChanges(user)
+    }
+
+    private fun observeUserChanges(userContext: UserContext) {
         viewModelScope.launch {
-            snapshotFlow { user.currentUser }.collectLatest {
-                val newUser = user.currentUser
-                if ( newUser != null) {
+            snapshotFlow { userContext.currentUser }.collectLatest { newUser ->
+                if (newUser != null) {
                     updateLogStatus(newUser)
                 }
             }
@@ -44,7 +44,7 @@ class LogContext(user: UserContext) : ViewModel() {
     }
 
     fun updateLogStatus(user: User) {
-        if (user::class.simpleName == "Warden")
+        if (user is Warden)
         {
             createLog("example_alarm")
         } else {

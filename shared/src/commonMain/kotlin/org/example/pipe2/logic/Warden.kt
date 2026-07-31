@@ -10,4 +10,11 @@ class Warden(): User {
     override var username by mutableStateOf("")
     override var building by mutableStateOf("")
     override var email by mutableStateOf("")
+
+    constructor(_uid: String, _username: String, _building: String, _email: String): this() {
+        uid = _uid
+        username = _username
+        building = _building
+        email = _email
+    }
 }

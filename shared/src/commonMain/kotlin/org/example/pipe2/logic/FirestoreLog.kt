@@ -1,4 +1,4 @@
-package org.example.pipe2.data.log
+package org.example.pipe2.logic
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import org.example.pipe2.oldLogic.EndEvent
 import org.example.pipe2.oldLogic.ErrorEvent
 import org.example.pipe2.oldLogic.Event
-import org.example.pipe2.logic.Log
 import org.example.pipe2.oldLogic.MessageEvent
 import org.example.pipe2.oldLogic.StartEvent
 import org.example.pipe2.oldLogic.StatusUpdateEvent

@@ -28,10 +28,14 @@ class UIContext(private val user: UserContext) : ViewModel() {
     }
 
     init {
-        viewModelScope.launch {
-            snapshotFlow { user.currentUser }.collectLatest {
+        observeUserChanges()
+    }
 
-                theme = when (user.currentUser) {
+    private fun observeUserChanges() {
+        val userContext = user
+        viewModelScope.launch {
+            snapshotFlow { userContext.currentUser }.collectLatest { newUser ->
+                theme = when (newUser) {
                     is Student -> AccountTheme.Student
                     is Warden -> AccountTheme.Warden
                     else -> AccountTheme.None
