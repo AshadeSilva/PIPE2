@@ -19,7 +19,7 @@ import org.example.pipe2.oldLogic.LocalAppContext
 
 @Composable
 fun LoginPage() {
-    val context = LocalAppContext.current.loginContext
+    val context = LocalAppContext.current.loginPage
 
     Text("Sign in", style = MaterialTheme.typography.headlineMedium)
 
@@ -28,8 +28,8 @@ fun LoginPage() {
     devSignIn("student")
 
     // type in email/password
-    signInTextField("Name", context.email, {context.email = it}, VisualTransformation.None)
-    signInTextField("Password", context.password, {context.password = it}, PasswordVisualTransformation())
+    signInTextField("Name", context.email, {context.email = it}, VisualTransformation.None, true)
+    signInTextField("Password", context.password, {context.password = it}, PasswordVisualTransformation(), true)
 
     // submit button
     Button(
@@ -97,7 +97,7 @@ private fun devFirebaseErrorHandler() {
 }
 
 @Composable
-private fun signInTextField(name: String, getSign: String, setSign: (String) -> Unit, hide: VisualTransformation ) {
+private fun signInTextField(name: String, getSign: String, setSign: (String) -> Unit, hide: VisualTransformation, enabled: Boolean ) {
     OutlinedTextField(
         value = getSign,
         onValueChange = setSign,
@@ -105,6 +105,7 @@ private fun signInTextField(name: String, getSign: String, setSign: (String) -> 
         modifier = Modifier.fillMaxWidth(),
         visualTransformation = hide,
         singleLine = true,
+        enabled = enabled,
         colors = OutlinedTextFieldDefaults.colors(
             unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
             focusedTextColor = MaterialTheme.colorScheme.onPrimary
@@ -114,7 +115,7 @@ private fun signInTextField(name: String, getSign: String, setSign: (String) -> 
 
 @Composable
 private fun devSignIn(name: String) {
-    val context = LocalAppContext.current.loginContext
+    val context = LocalAppContext.current.loginPage
 
     Button(
         onClick = {
@@ -123,6 +124,7 @@ private fun devSignIn(name: String) {
             context.signInOrSignUp()
         },
         modifier = Modifier.fillMaxWidth(),
+        enabled = !context.isLoading,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.onPrimary,
             contentColor = MaterialTheme.colorScheme.onSecondary

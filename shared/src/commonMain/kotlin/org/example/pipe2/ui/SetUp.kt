@@ -12,14 +12,6 @@ import org.example.pipe2.ui.generalLayout.GeneralPage
 fun SetUp() {
     val appContext = rememberAppContext()
 
-    // Relaunch log when user or their account type changes (account is loading immediately after user)
-    LaunchedEffect(appContext.user.currentUser) {
-        val user = appContext.user.currentUser
-        if ( user != null) {
-            appContext.log.updateLogStatus(user)
-        }
-    }
-
     CompositionLocalProvider(LocalAppContext provides appContext) {
         AppTheme {
             GeneralPage()

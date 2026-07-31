@@ -9,27 +9,34 @@ import org.example.pipe2.logic.DBResult
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.example.pipe2.utils.logDebug
+import kotlinx.coroutines.CancellationException
 
 
-class FirebaseAccountDB private constructor(): AccountDB {
+class FirebaseAccountDB: AccountDB, ViewModel() {
     private val auth = Firebase.auth
     override var currentDetails by mutableStateOf<DBResult?>(null)
         private set
 
-    companion object {
-        val instance = FirebaseAccountDB()
+    init {
+        viewModelScope.launch {
+            auth.authStateChanged.collectLatest {
+                logDebug("ASHADEBUG", "FirebaseAccountDB: authStateChanged")
+
+                if (it == null) {
+                    currentDetails = null
+                }
+                else {
+                    changeUser(it)
+                }
+            }
+        }
     }
 
-    override suspend fun listenUser() = auth.authStateChanged.collectLatest {
-        if (it == null) {
-            currentDetails = null
-        }
-        else {
-            changeUser(it)
-        }
-    }
 
     private suspend fun changeUser(user: FirebaseUser) {
         try {
@@ -38,31 +45,35 @@ class FirebaseAccountDB private constructor(): AccountDB {
                 .document(user.uid)
                 .snapshots
                 .collect { result ->
-                    val uid: String? = result.get("uid")
-                    if (uid == null) {
+
+                    if (!result.exists) {
                         currentDetails = null
-                    } else {
+                        return@collect
+                    }
+
+                    try {
                         currentDetails = DBResult(
-                            uid,
-                            result.get("username"),
-                            result.get("building"),
-                            result.get("email"),
-                            result.get("type")
+                            uid = result.get("uid"),
+                            username = result.get("username"),
+                            building = result.get("building"),
+                            email = result.get("email"),
+                            type = result.get("type")
                         )
+                    } catch (e: Exception) {
+                        currentDetails = null
                     }
                 }
         } catch (e: Exception) {
+            if (e is CancellationException) throw e // Ensure cancellation works for collectLatest
             currentDetails = null
         }
+
     }
 
     override suspend fun signInSignUp(email: String, password: String) {
-        logDebug("ASHADEBUG", "signing/up in as $email")
         // Attempt to sign in
         val result = try {
-            val r = auth.signInWithEmailAndPassword(email, password)
-            logDebug("ASHADEBUG", "signing in as $email")
-            r
+            auth.signInWithEmailAndPassword(email, password)
         } catch (e: Exception) {
             // If sign in fails, try to sign up (create user)
             auth.createUserWithEmailAndPassword(email, password)
@@ -72,6 +83,9 @@ class FirebaseAccountDB private constructor(): AccountDB {
         if (user != null) {
             linkAccount(user, email)
         }
+
+        logDebug("ASHADEBUG", "FirebaseAccountDB: signInSignUp as ${auth.currentUser?.email ?: "null"}")
+
     }
 
     private suspend fun linkAccount(user: FirebaseUser, email: String){
@@ -87,6 +101,8 @@ class FirebaseAccountDB private constructor(): AccountDB {
                     "createdAt" to FieldValue.serverTimestamp
                 )
             )
+        } else {
+            logDebug("ASHADEBUG", "FirebaseAccountDB: User document already exists")
         }
     }
 

@@ -22,17 +22,13 @@ import org.example.pipe2.oldLogic.LocalAppContext
 
 @Composable
 fun GeneralPage() {
-    val user = LocalAppContext.current.user
-    val theme = user.theme
+    val ui = LocalAppContext.current.ui
+    val theme = ui.theme
     val currentScreen = remember { mutableStateOf<Page>(Page.LogIn) }
 
     // Automatically switch screen when theme changes
     LaunchedEffect(theme) {
-        if (theme != UserContext.AccountTheme.None) {
-            currentScreen.value = theme.pages.first()
-        } else {
-            currentScreen.value = Page.LogIn
-        }
+        currentScreen.value = theme.pages.first()
     }
 
     val screens: List<Page> = theme.pages

@@ -14,8 +14,7 @@ import org.example.pipe2.oldLogic.LocalAppContext
 
 @Composable
 fun ControlBar() {
-    val context = LocalAppContext.current
-    val alarmVm = context.alarm
+    val alarm = LocalAppContext.current.ui
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -29,17 +28,17 @@ fun ControlBar() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = alarmVm.state.stateName,
+                text = alarm.state.stateName,
                 style = MaterialTheme.typography.bodyLarge
             )
 
-            Button(onClick = { alarmVm.toggle() },
+            Button(onClick = { alarm.toggle() },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.onPrimary,
                     contentColor = MaterialTheme.colorScheme.onSecondary
                 )
             ) {
-                Text(alarmVm.state.wardenActivateButton)
+                Text(alarm.state.wardenActivateButton)
             }
         }
     }

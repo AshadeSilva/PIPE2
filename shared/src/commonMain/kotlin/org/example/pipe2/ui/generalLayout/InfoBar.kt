@@ -13,10 +13,9 @@ import org.example.pipe2.oldLogic.LocalAppContext
 @Composable
 fun InfoBar() {
     val context = LocalAppContext.current
-    val user = context.user
 
     Surface(
-        color = user.theme.colour,
+        color = context.ui.theme.colour,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
@@ -27,7 +26,7 @@ fun InfoBar() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = user.currentUser?.username ?: "Not Logged In",
+                text = context.user.currentUser?.username ?: "Not Logged In",
                 style = MaterialTheme.typography.bodyMedium
             )
         }

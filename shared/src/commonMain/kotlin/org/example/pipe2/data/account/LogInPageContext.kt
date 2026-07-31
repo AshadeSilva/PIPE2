@@ -9,15 +9,18 @@ import kotlinx.coroutines.launch
 import org.example.pipe2.utils.logDebug
 
 
-class LogInProcessor(val accountDB: AccountDB): ViewModel() {
+class LogInPageContext(val accountDB: AccountDB): ViewModel() {
     var email by mutableStateOf("")
     var password by mutableStateOf("")
     var isLoading by mutableStateOf(false)
     var errorMessage by mutableStateOf<String?>(null)
 
     fun signInOrSignUp() {
-        logDebug("ASHADEBUG", "signing in as $email")
-        if (email.isBlank() || password.isBlank()) return
+        logDebug("ASHADEBUG", "LogInPageContext: signing in as $email")
+        if (email.isBlank() || password.isBlank()) {
+            errorMessage = "Please enter both email and password"
+            return
+        }
         isLoading = true
         errorMessage = null
 

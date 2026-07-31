@@ -5,15 +5,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.example.pipe2.data.account.FirebaseAccountDB
-import org.example.pipe2.data.account.LogInProcessor
+import org.example.pipe2.data.account.LogInPageContext
 import org.example.pipe2.logic.LogContext
 import org.example.pipe2.logic.UserContext
 
 class AppContext(
-    val loginContext: LogInProcessor,
-    val alarm: AlarmViewModel,
     val user: UserContext,
-    val log: LogContext
+    val log: LogContext,
+    val ui: UIContext,
+
+    // remember state for pages
+    val loginPage: LogInPageContext
 )
 
 val LocalAppContext = staticCompositionLocalOf<AppContext> {
@@ -22,10 +24,11 @@ val LocalAppContext = staticCompositionLocalOf<AppContext> {
 
 @Composable
 fun rememberAppContext(): AppContext {
-    val accountDB = FirebaseAccountDB.instance
-    val loginContext = viewModel { LogInProcessor(accountDB) }
-    val alarm = viewModel { AlarmViewModel() }
+    val accountDB = viewModel { FirebaseAccountDB() }
     val user = viewModel { UserContext(accountDB) }
-    val log = viewModel { LogContext.instance }
-    return remember(loginContext, alarm, user, log) { AppContext(loginContext, alarm, user, log) }
+    val log = viewModel { LogContext(user) }
+    val ui = viewModel { UIContext(user) }
+    val loginPage = viewModel { LogInPageContext(accountDB) }
+
+    return remember(user, log, loginPage) { AppContext(user, log, ui, loginPage) }
 }
