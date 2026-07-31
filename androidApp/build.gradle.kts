@@ -20,7 +20,6 @@ dependencies {
 
     implementation(libs.compose.uiToolingPreview)
     debugImplementation(libs.compose.uiTooling)
-    implementation(libs.androidx.material.icons.extended)
     
     // Added Firebase dependencies
     implementation(platform(libs.firebase.bom))
@@ -49,6 +48,10 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
+            // Disable Crashlytics for debug builds to speed up compilation
+            configure<com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension> {
+                mappingFileUploadEnabled = false
+            }
         }
         getByName("release") {
             isMinifyEnabled = false
