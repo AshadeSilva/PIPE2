@@ -8,7 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.logic.LocalAppContext
+import org.example.pipe2.oldLogic.LocalAppContext
 
 @Composable
 fun StatusBar() {

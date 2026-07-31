@@ -1,13 +1,12 @@
-package org.example.pipe2.logiced
+package org.example.pipe2.logic
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import org.example.pipe2.database.FirestoreLog
-import org.example.pipe2.logic.AccountView
-import org.example.pipe2.logic.Event
+import org.example.pipe2.data.log.FirestoreLog
+import org.example.pipe2.oldLogic.Event
 
 // container for the log to be in. Sometimes empty. Same object throughout
 // type of Log class is chosen in createLog
@@ -29,8 +28,9 @@ class LogContext private constructor(): ViewModel() {
         title = "Log: $alarmId"
     }
 
-    fun updateLogStatus(accountType: AccountView) {
-        if (accountType == AccountView.Warden){
+    fun updateLogStatus(user: User) {
+        if (user::class.simpleName == "Warden")
+        {
             createLog("example_alarm")
         } else {
             closeLog()

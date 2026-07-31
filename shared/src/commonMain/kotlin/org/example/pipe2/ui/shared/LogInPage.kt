@@ -15,11 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.logic.LocalAppContext
+import org.example.pipe2.oldLogic.LocalAppContext
 
 @Composable
 fun LoginPage() {
-    val auth = LocalAppContext.current.auth
+    val context = LocalAppContext.current.loginContext
 
     Text("Sign in", style = MaterialTheme.typography.headlineMedium)
 
@@ -28,28 +28,28 @@ fun LoginPage() {
     devSignIn("student")
 
     // type in email/password
-    signInTextField("Name", auth.email, {auth.email = it}, VisualTransformation.None)
-    signInTextField("Password", auth.password, {auth.password = it}, PasswordVisualTransformation())
+    signInTextField("Name", context.email, {context.email = it}, VisualTransformation.None)
+    signInTextField("Password", context.password, {context.password = it}, PasswordVisualTransformation())
 
     // submit button
     Button(
-        onClick = { auth.signInOrSignUp() },
+        onClick = { context.signInOrSignUp() },
         modifier = Modifier.fillMaxWidth(),
-        enabled = !auth.isLoading,
+        enabled = !context.isLoading,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.onPrimary,
             contentColor = MaterialTheme.colorScheme.onSecondary
         )
     ) {
-        Text(if (auth.isLoading) "Processing..." else "Log In / Sign Up")
+        Text(if (context.isLoading) "Processing..." else "Log In / Sign Up")
     }
-    auth.errorMessage?.let {
+    context.errorMessage?.let {
         Text(it, color = MaterialTheme.colorScheme.error)
     }
 
     // log out button
     Button(
-        onClick = { auth.signOut() },
+        onClick = { context.signOut() },
         modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.onPrimary,
@@ -114,13 +114,13 @@ private fun signInTextField(name: String, getSign: String, setSign: (String) -> 
 
 @Composable
 private fun devSignIn(name: String) {
-    val auth = LocalAppContext.current.auth
+    val context = LocalAppContext.current.loginContext
 
     Button(
         onClick = {
-            auth.email = "$name@imperial.ac.uk"
-            auth.password = name
-            auth.signInOrSignUp()
+            context.email = "$name@imperial.ac.uk"
+            context.password = name
+            context.signInOrSignUp()
         },
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
@@ -128,7 +128,7 @@ private fun devSignIn(name: String) {
             contentColor = MaterialTheme.colorScheme.onSecondary
         )
     ) {
-        Text(if (auth.isLoading) "Signing in..." else "Log In As $name")
+        Text(if (context.isLoading) "Signing in..." else "Log In As $name")
     }
 }
 

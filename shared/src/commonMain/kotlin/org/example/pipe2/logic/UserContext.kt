@@ -1,0 +1,74 @@
+package org.example.pipe2.logic
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.example.pipe2.data.account.AccountDB
+import org.example.pipe2.ui.generalLayout.Page
+import org.example.pipe2.ui.theme.White
+import org.example.pipe2.utils.logDebug
+
+class UserContext(private val accountDB: AccountDB) : ViewModel() {
+
+    // TODO: fill with dummy accounts for now
+    val savedUsers: MutableList<User> = mutableListOf()
+
+    var currentUser by mutableStateOf<User?>(null)
+
+    init {
+        // watch user db for change
+        viewModelScope.launch {
+            accountDB.listenUser()
+        }
+
+        viewModelScope.launch {
+            snapshotFlow { accountDB.currentDetails }.collectLatest {
+                logDebug("ASHADEBUG", "accountDB.currentDetails collected")
+                val details = it
+                if (details != null) {
+                    updateUser(details)
+                    logDebug("ASHADEBUG", "user updated")
+                } else {
+                    currentUser = null
+                    theme = AccountTheme.None
+                }
+            }
+        }
+    }
+
+    fun updateUser(details: DBResult) {
+        logDebug("ASHADEBUG", "userupdated")
+        // see if we have a local version
+        var user = savedUsers.find { it.uid == details.uid }
+        if (user == null) {
+            // else copy remote account locally
+            user = when (details.type){
+                "student" -> Student()
+                "warden" -> Warden()
+                else -> null
+            }
+            if (user != null) {
+                savedUsers.add(user)
+            }
+        }
+        if (user != null){
+            user.updateDetails(details)
+            theme = when(user) {
+                is Student -> AccountTheme.Student
+                is Warden -> AccountTheme.Warden
+            }
+        } else {
+            theme = AccountTheme.None
+        }
+        currentUser = user
+        logDebug("ASHADEBUG", "user updated")
+    }
+
+
+}

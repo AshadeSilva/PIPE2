@@ -1,8 +1,7 @@
-package org.example.pipe2.logic
+package org.example.pipe2.oldLogic
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import org.example.pipe2.utils.logDebug
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 

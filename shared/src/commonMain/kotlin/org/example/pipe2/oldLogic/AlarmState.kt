@@ -1,4 +1,4 @@
-package org.example.pipe2.logic
+package org.example.pipe2.oldLogic
 
 sealed class AlarmState {
     abstract val wardenActivateButton: String

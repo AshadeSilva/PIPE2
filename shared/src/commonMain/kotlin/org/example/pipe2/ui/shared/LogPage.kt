@@ -7,13 +7,11 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.logic.Event
-import org.example.pipe2.logic.LocalAppContext
-import org.example.pipe2.utils.logDebug
+import org.example.pipe2.oldLogic.Event
+import org.example.pipe2.oldLogic.LocalAppContext
 
 @Composable
 fun LogPage() {

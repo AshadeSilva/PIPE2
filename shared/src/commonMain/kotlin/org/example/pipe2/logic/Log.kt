@@ -1,6 +1,6 @@
-package org.example.pipe2.logiced
+package org.example.pipe2.logic
 
-import org.example.pipe2.logic.Event
+import org.example.pipe2.oldLogic.Event
 
 // caches the remote collection for the current alarm
 interface Log {

@@ -1,7 +1,5 @@
-package org.example.pipe2.logic
+package org.example.pipe2.oldLogic
 
-import androidx.lifecycle.Lifecycle
-import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.Timestamp
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
