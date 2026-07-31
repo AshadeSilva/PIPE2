@@ -47,10 +47,7 @@ class UserContext(private val accountDB: AccountDB) : ViewModel() {
             user = when (details.type){
                 "student" -> Student()
                 "warden" -> Warden()
-                else -> {
-                    logDebug("ASHADEBUG", "new account not made")
-                    null
-                }
+                else -> null
             }
             if (user != null) {
                 savedUsers.add(user)
@@ -60,6 +57,5 @@ class UserContext(private val accountDB: AccountDB) : ViewModel() {
             user.updateDetails(details)
         }
         currentUser = user
-        logDebug("ASHADEBUG", "UserContext: user updated to ${user?.username ?: "null"}")
     }
 }

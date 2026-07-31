@@ -40,7 +40,6 @@ class UIContext(private val user: UserContext) : ViewModel() {
                     is Warden -> AccountTheme.Warden
                     else -> AccountTheme.None
                 }
-                logDebug("ASHADEBUG", "UIContext: user changed")
             }
         }
     }
