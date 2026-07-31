@@ -1,4 +1,4 @@
-package org.example.pipe2.oldLogic
+package org.example.pipe2.logic.alarm
 
 import dev.gitlive.firebase.firestore.Timestamp
 import kotlinx.datetime.LocalDateTime
@@ -6,6 +6,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toLocalDateTime
+import org.example.pipe2.logic.alarm.Status
 import kotlin.time.Instant
 
 interface Event {

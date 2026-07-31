@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.oldLogic.Event
-import org.example.pipe2.oldLogic.LocalAppContext
+import org.example.pipe2.logic.alarm.Event
+import org.example.pipe2.logic.contexts.LocalAppContext
 
 @Composable
 fun LogPage() {

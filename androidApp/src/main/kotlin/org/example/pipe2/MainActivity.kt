@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
-import org.example.pipe2.ui.SetUp
+import org.example.pipe2.ui.generalLayout.SetUp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

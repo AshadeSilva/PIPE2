@@ -1,19 +1,18 @@
-package org.example.pipe2.logic
+package org.example.pipe2.logic.contexts
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.example.pipe2.data.account.AccountDB
-import org.example.pipe2.oldLogic.LocalAppContext
-import org.example.pipe2.ui.generalLayout.Page
-import org.example.pipe2.ui.theme.White
-import org.example.pipe2.utils.logDebug
+import org.example.pipe2.data.account.DBResult
+import org.example.pipe2.logic.account.Student
+import org.example.pipe2.logic.account.User
+import org.example.pipe2.logic.account.Warden
 
 class UserContext(private val accountDB: AccountDB) : ViewModel() {
 

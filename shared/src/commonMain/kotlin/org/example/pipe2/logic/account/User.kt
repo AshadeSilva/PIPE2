@@ -1,7 +1,6 @@
-package org.example.pipe2.logic
+package org.example.pipe2.logic.account
 
-import androidx.compose.ui.graphics.Color
-import org.example.pipe2.ui.generalLayout.Page
+import org.example.pipe2.data.account.DBResult
 import org.example.pipe2.utils.logDebug
 
 sealed interface User {

@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.oldLogic.LocalAppContext
+import org.example.pipe2.logic.contexts.LocalAppContext
 
 @Composable
 fun LoginPage() {

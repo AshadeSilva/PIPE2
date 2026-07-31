@@ -1,10 +1,8 @@
-package org.example.pipe2.logic
+package org.example.pipe2.logic.account
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import org.example.pipe2.logic.Warden
-import org.example.pipe2.ui.generalLayout.Page
 
 class Student(): User {
     override var uid by mutableStateOf("")

@@ -1,13 +1,13 @@
-package org.example.pipe2.data.account
+package org.example.pipe2.logic.contexts
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import kotlinx.coroutines.launch
+import org.example.pipe2.data.account.AccountDB
 import org.example.pipe2.utils.logDebug
-
 
 class LogInPageContext(val accountDB: AccountDB): ViewModel() {
     var email by mutableStateOf("")

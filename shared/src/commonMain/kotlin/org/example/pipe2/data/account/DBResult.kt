@@ -1,4 +1,4 @@
-package org.example.pipe2.logic
+package org.example.pipe2.data.account
 
 data class DBResult (
     val uid: String,

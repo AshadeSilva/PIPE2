@@ -1,4 +1,4 @@
-package org.example.pipe2.oldLogic
+package org.example.pipe2.logic.alarm
 
 enum class Status (val message: String) {
     SAFELY_EVACUATED_WARDEN("safely evacuated - registered by warden"),

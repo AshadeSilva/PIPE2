@@ -1,4 +1,4 @@
-package org.example.pipe2.logic
+package org.example.pipe2.data.alarm
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -9,13 +9,13 @@ import dev.gitlive.firebase.firestore.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.example.pipe2.oldLogic.EndEvent
-import org.example.pipe2.oldLogic.ErrorEvent
-import org.example.pipe2.oldLogic.Event
-import org.example.pipe2.oldLogic.MessageEvent
-import org.example.pipe2.oldLogic.StartEvent
-import org.example.pipe2.oldLogic.StatusUpdateEvent
-import org.example.pipe2.oldLogic.toStatus
+import org.example.pipe2.logic.alarm.EndEvent
+import org.example.pipe2.logic.alarm.ErrorEvent
+import org.example.pipe2.logic.alarm.Event
+import org.example.pipe2.logic.alarm.MessageEvent
+import org.example.pipe2.logic.alarm.StartEvent
+import org.example.pipe2.logic.alarm.StatusUpdateEvent
+import org.example.pipe2.logic.alarm.toStatus
 
 // cache the remote version of the current alarm's log
 class FirestoreLog (alarmId: String, private val scope: CoroutineScope): Log {

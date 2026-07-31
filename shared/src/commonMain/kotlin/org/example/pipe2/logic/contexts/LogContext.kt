@@ -1,6 +1,5 @@
-package org.example.pipe2.logic
+package org.example.pipe2.logic.contexts
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,7 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.example.pipe2.oldLogic.Event
+import org.example.pipe2.data.alarm.FirestoreLog
+import org.example.pipe2.data.alarm.Log
+import org.example.pipe2.logic.account.User
+import org.example.pipe2.logic.account.Warden
+import org.example.pipe2.logic.alarm.Event
 
 // container for the log to be in. Sometimes empty. Same object throughout
 // type of Log class is chosen in createLog
