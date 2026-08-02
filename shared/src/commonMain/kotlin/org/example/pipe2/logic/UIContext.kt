@@ -1,4 +1,4 @@
-package org.example.pipe2.logic.contexts
+package org.example.pipe2.logic
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.example.pipe2.logic.account.Student
+import org.example.pipe2.logic.account.UserContext
 import org.example.pipe2.logic.account.Warden
 import org.example.pipe2.logic.alarm.AlarmState
 import org.example.pipe2.logic.alarm.DeactiveState

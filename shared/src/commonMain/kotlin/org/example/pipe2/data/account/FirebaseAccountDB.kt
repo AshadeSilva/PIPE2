@@ -3,101 +3,77 @@ package org.example.pipe2.data.account
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.firestore
-import dev.gitlive.firebase.auth.FirebaseUser
-import dev.gitlive.firebase.firestore.FieldValue
-import org.example.pipe2.data.account.DBResult
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.collectLatest
+import dev.gitlive.firebase.auth.FirebaseAuthInvalidUserException
+import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.CancellationException
 
 
-class FirebaseAccountDB: AccountDB, ViewModel() {
+class FirebaseAccountDB: RemoteAccountDB, ViewModel() {
     private val auth = Firebase.auth
-    override var currentDetails by mutableStateOf<DBResult?>(null)
+
+    override var currentDetails by mutableStateOf<UserDetails?>(null)
         private set
-
-    init {
-        viewModelScope.launch {
-            auth.authStateChanged.collectLatest {
-                if (it == null) {
-                    currentDetails = null
-                }
-                else {
-                    changeUser(it)
-                }
-            }
-        }
-    }
+    private var detailsJob: Job? = null
 
 
-    private suspend fun changeUser(user: FirebaseUser) {
-        try {
+    // once signed in, watch account document for changes
+    private fun startObservingDetails(uid: String){
+        detailsJob?.cancel()
+        detailsJob = viewModelScope.launch {
             Firebase.firestore
                 .collection("users")
-                .document(user.uid)
+                .document(uid)
                 .snapshots
                 .collect { result ->
-
                     if (!result.exists) {
                         currentDetails = null
                         return@collect
                     }
-
                     try {
-                        currentDetails = DBResult(
+                        currentDetails = UserDetails(
                             uid = result.get("uid"),
                             username = result.get("username"),
                             building = result.get("building"),
                             email = result.get("email"),
                             type = result.get("account_type")
                         )
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         currentDetails = null
+                        throw CorruptedAccountError(uid)
                     }
                 }
-        } catch (e: Exception) {
-            if (e is CancellationException) throw e // Ensure cancellation works for collectLatest
-            currentDetails = null
         }
-
     }
 
-    override suspend fun signInSignUp(email: String, password: String) {
+    // attempt to sign in
+    override suspend fun signIn(email: String, password: String) {
         // Attempt to sign in
-        val result = try {
-            auth.signInWithEmailAndPassword(email, password)
-        } catch (e: Exception) {
-            // If sign in fails, try to sign up (create user)
-            auth.createUserWithEmailAndPassword(email, password)
-        }
-
-        val user = result.user
-        if (user != null) {
-            linkAccount(user, email)
-        }
-
-    }
-
-    private suspend fun linkAccount(user: FirebaseUser, email: String){
-        val userDoc = Firebase.firestore.collection("users").document(user.uid)
-        val snapshot = try { userDoc.get() } catch (e: Exception) { null }
-
-        if (snapshot == null || !snapshot.exists) {
-            userDoc.set(
-                mapOf(
-                    "email" to email,
-                    "uid" to user.uid,
-                    "account_type" to "student",
-                    "createdAt" to FieldValue.serverTimestamp
-                )
-            )
+        try {
+            val user = auth.signInWithEmailAndPassword(email, password).user
+            if (user != null) {
+                startObservingDetails(user.uid)
+                // Wait for the first set of details to be loaded
+                snapshotFlow { currentDetails }.filterNotNull().first()
+            }
+        } catch (e: FirebaseAuthInvalidUserException) {
+            throw InvalidCredentialsError(email)
+        } catch (e: FirebaseAuthInvalidCredentialsException) {
+            throw InvalidCredentialsError(email)
         }
     }
 
-    override suspend fun signOut() = auth.signOut()
+    override suspend fun signOut() {
+        detailsJob?.cancel()
+        currentDetails = null
+        auth.signOut()
+    }
 }

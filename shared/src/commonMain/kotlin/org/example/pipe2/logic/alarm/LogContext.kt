@@ -1,7 +1,7 @@
-package org.example.pipe2.logic.contexts
+package org.example.pipe2.logic.alarm
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
@@ -12,7 +12,7 @@ import org.example.pipe2.data.alarm.FirestoreLog
 import org.example.pipe2.data.alarm.Log
 import org.example.pipe2.logic.account.User
 import org.example.pipe2.logic.account.Warden
-import org.example.pipe2.logic.alarm.Event
+import org.example.pipe2.logic.account.UserContext
 
 // container for the log to be in. Sometimes empty. Same object throughout
 // type of Log class is chosen in createLog

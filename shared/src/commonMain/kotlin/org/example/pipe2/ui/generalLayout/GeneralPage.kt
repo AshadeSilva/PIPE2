@@ -17,7 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.logic.contexts.LocalAppContext
+import org.example.pipe2.logic.LocalAppContext
 
 @Composable
 fun GeneralPage() {

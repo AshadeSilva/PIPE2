@@ -4,10 +4,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.Timestamp
+import dev.gitlive.firebase.firestore.firestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import org.example.pipe2.logic.alarm.EndEvent
 import org.example.pipe2.logic.alarm.ErrorEvent
@@ -18,9 +22,8 @@ import org.example.pipe2.logic.alarm.StatusUpdateEvent
 import org.example.pipe2.logic.alarm.toStatus
 
 // cache the remote version of the current alarm's log
-class FirestoreLog (alarmId: String, private val scope: CoroutineScope): Log {
+class FirestoreLog (private val alarmId: String, private val scope: CoroutineScope): Log {
 
-    private val listener: FirestoreLogAccess = FirestoreLogAccess(alarmId)
     private val _events = mutableStateListOf<Event>()
     override val events: List<Event> = _events
 
@@ -34,7 +37,7 @@ class FirestoreLog (alarmId: String, private val scope: CoroutineScope): Log {
         job = scope.launch {
             try {
                 lastError = null
-                listener.listen().collect {
+                listen().collect {
                     val event = it.toEvent()
                     if (event != null){
                         _events.add(event)
@@ -67,6 +70,19 @@ class FirestoreLog (alarmId: String, private val scope: CoroutineScope): Log {
             else -> ErrorEvent("", time)
         }
     }
+
+    fun listen(): Flow<DocumentSnapshot> = Firebase.firestore
+        .collection("activeAlarms")
+        .document(alarmId)
+        .collection("events")
+        .orderBy("time")
+        .snapshots
+        .transform { snapshot ->
+            snapshot.documentChanges
+                .forEach { change ->
+                    emit(change.document)
+                }
+        }
 
 }
 

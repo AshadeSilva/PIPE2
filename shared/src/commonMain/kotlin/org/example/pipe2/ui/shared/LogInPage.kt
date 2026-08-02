@@ -15,7 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.logic.contexts.LocalAppContext
+import org.example.pipe2.logic.LocalAppContext
+import kotlin.let
 
 @Composable
 fun LoginPage() {
@@ -43,9 +44,8 @@ fun LoginPage() {
     ) {
         Text(if (context.isLoading) "Processing..." else "Log In / Sign Up")
     }
-    context.errorMessage?.let {
-        Text(it, color = MaterialTheme.colorScheme.error)
-    }
+
+    context.errorMessage?.let { Text(it, color = MaterialTheme.colorScheme.error) }
 
     // log out button
     Button(

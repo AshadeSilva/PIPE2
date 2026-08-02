@@ -1,22 +1,20 @@
-package org.example.pipe2.logic.contexts
+package org.example.pipe2.logic.account
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.example.pipe2.data.account.AccountDB
-import org.example.pipe2.utils.logDebug
 
-class LogInPageContext(val accountDB: AccountDB): ViewModel() {
+class LogInPageContext(val sessionManager: SessionManager): ViewModel() {
     var email by mutableStateOf("")
     var password by mutableStateOf("")
     var isLoading by mutableStateOf(false)
     var errorMessage by mutableStateOf<String?>(null)
 
     fun signInOrSignUp() {
-        logDebug("ASHADEBUG", "LogInPageContext: signing in as $email")
+        // read UI
         if (email.isBlank() || password.isBlank()) {
             errorMessage = "Please enter both email and password"
             return
@@ -26,7 +24,7 @@ class LogInPageContext(val accountDB: AccountDB): ViewModel() {
 
         viewModelScope.launch {
             try {
-                accountDB.signInSignUp(email, password)
+                sessionManager.signIn(email, password)
             } catch (e: Exception) {
                 errorMessage = e.message ?: "Authentication failed"
             } finally {
@@ -37,7 +35,7 @@ class LogInPageContext(val accountDB: AccountDB): ViewModel() {
 
     fun signOut() {
         viewModelScope.launch {
-            accountDB.signOut()
+            sessionManager.signOut()
         }
     }
 }
