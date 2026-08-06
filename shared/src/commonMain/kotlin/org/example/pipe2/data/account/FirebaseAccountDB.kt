@@ -3,15 +3,14 @@ package org.example.pipe2.data.account
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.firestore
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidUserException
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -20,8 +19,9 @@ import kotlinx.coroutines.launch
 class FirebaseAccountDB: RemoteAccountDB, ViewModel() {
     private val auth = Firebase.auth
 
-    override var currentDetails by mutableStateOf<UserDetails?>(null)
-        private set
+    private val _currentDetails = MutableStateFlow<UserDetails?>(null)
+    override val currentDetails: StateFlow<UserDetails?> = _currentDetails.asStateFlow()
+
     private var detailsJob: Job? = null
 
 
@@ -35,11 +35,11 @@ class FirebaseAccountDB: RemoteAccountDB, ViewModel() {
                 .snapshots
                 .collect { result ->
                     if (!result.exists) {
-                        currentDetails = null
+                        _currentDetails.value = null
                         return@collect
                     }
                     try {
-                        currentDetails = UserDetails(
+                        _currentDetails.value = UserDetails(
                             uid = result.get("uid"),
                             username = result.get("username"),
                             building = result.get("building"),
@@ -47,33 +47,36 @@ class FirebaseAccountDB: RemoteAccountDB, ViewModel() {
                             type = result.get("account_type")
                         )
                     } catch (_: Exception) {
-                        currentDetails = null
-                        throw CorruptedAccountError(uid)
+                        _currentDetails.value = null
+                        // TODO: Handle corrupted account state
                     }
                 }
         }
     }
 
     // attempt to sign in
-    override suspend fun signIn(email: String, password: String) {
+    override suspend fun signIn(email: String, password: String): UserDetails {
         // Attempt to sign in
         try {
             val user = auth.signInWithEmailAndPassword(email, password).user
             if (user != null) {
+                _currentDetails.value = null // Clear old details to avoid race conditions
                 startObservingDetails(user.uid)
                 // Wait for the first set of details to be loaded
-                snapshotFlow { currentDetails }.filterNotNull().first()
+                return currentDetails.filterNotNull().first()
+            } else {
+                throw InvalidCredentialsError(email)
             }
-        } catch (e: FirebaseAuthInvalidUserException) {
+        } catch (_: FirebaseAuthInvalidUserException) {
             throw InvalidCredentialsError(email)
-        } catch (e: FirebaseAuthInvalidCredentialsException) {
+        } catch (_: FirebaseAuthInvalidCredentialsException) {
             throw InvalidCredentialsError(email)
         }
     }
 
     override suspend fun signOut() {
         detailsJob?.cancel()
-        currentDetails = null
+        _currentDetails.value = null
         auth.signOut()
     }
 }

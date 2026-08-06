@@ -12,6 +12,8 @@ class UserContext(private val localDB: LocalAccountDB) : ViewModel() {
     var currentUser by mutableStateOf<User?>(null)
 
     fun switchUser(uid: String){
+        if (currentUser?.uid == uid) return
+
         val type = localDB.getUserDocument(uid)?.value?.type
         currentUser = when (type){
             "student" -> Student(uid, viewModelScope, localDB)

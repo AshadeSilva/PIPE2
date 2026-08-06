@@ -7,77 +7,77 @@ import org.example.pipe2.data.account.LocalAccountDB
 import org.example.pipe2.data.account.RemoteAccountDB
 import org.example.pipe2.data.account.UserNotFoundError
 
-
-// handles signing into the app, the remote database and the local database
-class SessionManager (val remote: RemoteAccountDB,
-                      val local: LocalAccountDB,
-                      val databaseHandler: DatabaseHandler,
-                      val userContext: UserContext
+/**
+ * Coordinates the sign-in/sign-out process across local and remote databases.
+ * Acts as the entry point for authentication flows.
+ */
+class SessionManager(
+    private val remote: RemoteAccountDB,
+    private val local: LocalAccountDB,
+    private val databaseHandler: DatabaseHandler,
+    private val userContext: UserContext
 ) {
 
-     /* disable Database Handler
-     sign in user to local DB
-     if remoteUser != currentUser, continuously attempt to sign in the user
-     if it fails from credentials, give an error, if for connectivity keep trying */
+    /**
+     * Signs in the user by first checking local cache and then authenticating with the remote server.
+     */
     suspend fun signIn(email: String, password: String) {
-         databaseHandler.stop()
-         try {
-             // user is in local DB. Sign in and then link to remote
-             val uid = local.authenticate(email, password)
-             userContext.switchUser(uid)
-             signInRemote(email, password)
-
-         } catch (_: UserNotFoundError) {
-             // user not in local DB. linking to remote, add user to localDB, then sign in
-             // TODO: show on ui "looking for account"
-             signInRemote(email, password) // this should load a new account into local
-             val uid = local.authenticate(email, password)
-             userContext.switchUser(uid)
-
-         } catch (e: InvalidCredentialsError) {
-             // TODO: show on ui "incorrect password"
-             failSignIn()
-         }
-
-    }
-
-    suspend fun signInRemote(email: String, password: String) {
-        while (true) {
+        try {
+            // 1. Try local authentication for immediate UI response (Offline support)
             try {
-                remote.signIn(email, password)
-                val uid = remote.currentDetails?.uid ?: throw InvalidCredentialsError(email)
-                databaseHandler.start(uid)
+                val localUid = local.authenticate(email, password)
+                userContext.switchUser(localUid)
+            } catch (e: UserNotFoundError) {}
 
-                // Wait for local DB to catch up before returning
-                while (local.getUserDocument(uid) == null) {
-                    delay(50)
-                }
+            // 2. Sign in to firebase (starts syncing)
+            val remoteUid = signInRemote(email, password)
 
-                break
-            } catch (e: InvalidCredentialsError) {
-                failSignIn(e)
+            // 3. update UI
+            userContext.switchUser(remoteUid)
 
-            } catch (e: Exception) {
-                //TODO: change to something better.
-                // Important: if fail to connect, keep trying. May need a device-specific connectivity monitor
-                delay(5000) // Retry in 5 seconds.
-            }
-        }
-    }
-
-    suspend fun failSignIn(e: Exception? = null) {
-        signOut()
-        if (e != null){
+        } catch (e: InvalidCredentialsError) {
+            failSignIn(e)
+        } catch (e: Exception) {
+            // Other errors (e.g. network) are handled by retries in signInRemote or reported to UI
             throw e
         }
     }
 
-    // disable database handler
-    // sign out user from local DB
-    // continuously attempt to sign out remoteDB from current user
+    /**
+     * Attempts to sign in to the remote database. Returns the UID on success.
+     * Retries indefinitely on transient errors (like network).
+     */
+    private suspend fun signInRemote(email: String, password: String): String {
+        while (true) {
+            try {
+                val details = remote.signIn(email, password)
+                val uid = details.uid
+
+                // wait for local to sync up
+                while (local.getUserDocument(uid) == null) {
+                    delay(50)
+                }
+                return uid
+            } catch (e: InvalidCredentialsError) {
+                throw e
+            } catch (e: Exception) {
+                // Connection error or similar, wait and retry
+                delay(5000)
+            }
+        }
+    }
+
+    private suspend fun failSignIn(e: Exception) {
+        val currentUid = userContext.currentUser?.uid
+        signOut()
+        if (currentUid != null) {
+            databaseHandler.purgeUser(currentUid)
+        }
+        throw e
+    }
+
     suspend fun signOut() {
-        databaseHandler.stop()
-        userContext.currentUser = null
         remote.signOut()
+        userContext.currentUser = null
     }
 }
