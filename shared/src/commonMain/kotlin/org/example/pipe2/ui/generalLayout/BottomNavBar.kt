@@ -5,16 +5,16 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import org.example.pipe2.ui.generalLayout.GeneralLayoutContext
 
 @Composable
-fun BottomNavBar(pages: List<Page>, currentPage: MutableState<Page>) {
+fun BottomNavBar(ui: GeneralLayoutContext) {
     NavigationBar {
-        for (page in pages){
+        for (page in ui.theme.pages){
             NavigationBarItem(
                 icon = { Icon(page.icon, "home") },
-                //label = {"screen"},
-                selected = currentPage.value == page,
-                onClick = { currentPage.value = page }
+                selected = ui.currentPage == page,
+                onClick = { ui.currentPage = page }
                 )
         }
     }

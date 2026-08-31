@@ -11,11 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.example.pipe2.logic.LocalAppContext
+import org.example.pipe2.ui.generalLayout.GeneralLayoutContext
 
 @Composable
-fun ControlBar() {
-    val alarm = LocalAppContext.current.ui
-
+fun ControlBar(alarm: GeneralLayoutContext) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         modifier = Modifier.fillMaxWidth()
@@ -28,7 +27,7 @@ fun ControlBar() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = alarm.state.stateName,
+                text = alarm.alarmState.stateName,
                 style = MaterialTheme.typography.bodyLarge
             )
 
@@ -38,7 +37,7 @@ fun ControlBar() {
                     contentColor = MaterialTheme.colorScheme.onSecondary
                 )
             ) {
-                Text(alarm.state.wardenActivateButton)
+                Text(alarm.alarmState.wardenActivateButton)
             }
         }
     }

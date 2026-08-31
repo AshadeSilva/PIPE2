@@ -13,9 +13,8 @@ import org.example.pipe2.ui.shared.LoginPage
 import org.example.pipe2.ui.students.StatusBar
 import org.example.pipe2.ui.wardens.ControlBar
 
-sealed class Page(val name: String, val icon: ImageVector, val Contents: @Composable () -> Unit, val bar: @Composable () -> Unit) {
-    object Students : Page("Students", Icons.Default.AccountCircle, { StudentsPage() }, {ControlBar()})
-
+sealed class Page(val name: String, val icon: ImageVector, val Contents: @Composable (() -> Unit), val bar: @Composable ((GeneralLayoutContext) -> Unit)) {
+    object Students : Page("Students", Icons.Default.AccountCircle, { StudentsPage() }, {ControlBar(it)})
     object SelfRegister : Page("Call", Icons.Default.Home, {SelfRegisterPage()}, {StatusBar()})
     object LogIn : Page("Log In", Icons.Default.Settings, {LoginPage()}, {})
     object LogView : Page("Log", Icons.Default.CheckCircle, {LogPage()}, {StatusBar()})

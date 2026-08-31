@@ -14,7 +14,7 @@ fun SetUp() {
 
     CompositionLocalProvider(LocalAppContext provides appContext) {
         AppTheme {
-            GeneralPage()
+            GeneralLayout()
         }
     }
 }

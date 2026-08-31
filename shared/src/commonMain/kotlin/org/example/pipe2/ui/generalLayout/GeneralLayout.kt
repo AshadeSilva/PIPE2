@@ -11,26 +11,21 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.example.pipe2.logic.LocalAppContext
+import org.example.pipe2.logic.account.UserContext
 
 @Composable
-fun GeneralPage() {
-    val ui = LocalAppContext.current.ui
-    val theme = ui.theme
-    val currentScreen = remember { mutableStateOf<Page>(Page.LogIn) }
-
-    // Automatically switch screen when theme changes
-    LaunchedEffect(theme) {
-        currentScreen.value = theme.pages.first()
-    }
-
-    val screens: List<Page> = theme.pages
+fun GeneralLayout(
+    userContext: UserContext = LocalAppContext.current.user,
+    ui: GeneralLayoutContext = viewModel { GeneralLayoutContext(userContext) }
+) {
+    // will save the view models of the pages
+    val saveableStateHolder = rememberSaveableStateHolder()
 
     Column(
         modifier = Modifier.Companion
@@ -40,8 +35,8 @@ fun GeneralPage() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Companion.CenterHorizontally,
     ) {
-        InfoBar()
-        currentScreen.value.bar()
+        InfoBar(ui)
+        ui.currentPage.bar(ui)
         Column(
             modifier = Modifier.Companion
                 .weight(1f)
@@ -51,8 +46,11 @@ fun GeneralPage() {
             horizontalAlignment = Alignment.Companion.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            currentScreen.value.Contents()
+
+            saveableStateHolder.SaveableStateProvider(key = ui.currentPage.name) {
+                ui.currentPage.Contents()
+            }
         }
-        BottomNavBar(screens, currentScreen)
+        BottomNavBar(ui)
     }
 }

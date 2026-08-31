@@ -11,11 +11,9 @@ import androidx.compose.ui.unit.dp
 import org.example.pipe2.logic.LocalAppContext
 
 @Composable
-fun InfoBar() {
-    val context = LocalAppContext.current
-
+fun InfoBar(ui: GeneralLayoutContext) {
     Surface(
-        color = context.ui.theme.colour,
+        color = ui.theme.colour,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
@@ -26,7 +24,7 @@ fun InfoBar() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = context.user.currentUser?.username ?: "Not Logged In",
+                text = LocalAppContext.current.user.currentUser?.username ?: "Not Logged In",
                 style = MaterialTheme.typography.bodyMedium
             )
         }

@@ -14,19 +14,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.example.pipe2.logic.LocalAppContext
+import org.example.pipe2.logic.account.SessionManager
 import kotlin.let
 
 @Composable
-fun LoginPage() {
-    val context = LocalAppContext.current.loginPage
+fun LoginPage(
+    sessionManager: SessionManager = LocalAppContext.current.sessionManager,
+    context: LogInPageContext = viewModel { LogInPageContext(sessionManager) }
+) {
 
     Text("Sign in", style = MaterialTheme.typography.headlineMedium)
 
     // dev cheat buttons to quickly sign in
-    devSignIn("warden")
-    devSignIn("student")
+    devSignIn("warden", context)
+    devSignIn("student", context)
 
     // type in email/password
     signInTextField("Name", context.email, {context.email = it}, VisualTransformation.None, true)
@@ -114,8 +119,8 @@ private fun signInTextField(name: String, getSign: String, setSign: (String) -> 
 }
 
 @Composable
-private fun devSignIn(name: String) {
-    val context = LocalAppContext.current.loginPage
+private fun devSignIn(name: String, context: LogInPageContext) {
+//    val context = LocalAppContext.current.loginPage
 
     Button(
         onClick = {

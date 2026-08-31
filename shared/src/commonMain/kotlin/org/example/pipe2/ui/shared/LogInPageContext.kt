@@ -1,13 +1,14 @@
-package org.example.pipe2.logic.account
+package org.example.pipe2.ui.shared
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import org.example.pipe2.logic.account.SessionManager
 
-class LogInPageContext(val sessionManager: SessionManager): ViewModel() {
+class LogInPageContext (val sessionManager: SessionManager) : ViewModel() {
     var email by mutableStateOf("")
     var password by mutableStateOf("")
     var isLoading by mutableStateOf(false)

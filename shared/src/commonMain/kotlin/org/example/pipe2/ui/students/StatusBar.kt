@@ -12,7 +12,6 @@ import org.example.pipe2.logic.LocalAppContext
 
 @Composable
 fun StatusBar() {
-    val context = LocalAppContext.current
     Surface(
         color = MaterialTheme.colorScheme.surface,
         modifier = Modifier.fillMaxWidth()

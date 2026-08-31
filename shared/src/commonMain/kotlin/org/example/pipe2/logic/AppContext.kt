@@ -7,7 +7,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.example.pipe2.data.account.FirebaseAccountDB
 import org.example.pipe2.data.account.DatabaseHandler
 import org.example.pipe2.data.account.DummyLocalAccountDB
-import org.example.pipe2.logic.account.LogInPageContext
 import org.example.pipe2.logic.account.SessionManager
 import org.example.pipe2.logic.account.UserContext
 import org.example.pipe2.logic.alarm.LogContext
@@ -15,11 +14,8 @@ import org.example.pipe2.logic.alarm.LogContext
 class AppContext(
     val user: UserContext,
     val log: LogContext,
-    val ui: UIContext,
-
-    // remember state for pages
-    val loginPage: LogInPageContext
-)
+    val sessionManager: SessionManager
+    )
 
 val LocalAppContext = staticCompositionLocalOf<AppContext> {
     error("No AppContext provided")
@@ -32,11 +28,7 @@ fun rememberAppContext(): AppContext {
     val databaseHandler = viewModel { DatabaseHandler(remoteAccountDB, localAccountDB) }
 
     val user = viewModel { UserContext(localAccountDB) }
-
     val sessionManager = SessionManager(remoteAccountDB, localAccountDB, databaseHandler, user)
     val log = viewModel { LogContext(user) }
-    val ui = viewModel { UIContext(user) }
-    val loginPage = viewModel { LogInPageContext(sessionManager) }
-
-    return remember(user, log, loginPage) { AppContext(user, log, ui, loginPage) }
+    return remember(user, log, sessionManager) { AppContext(user, log, sessionManager) }
 }
