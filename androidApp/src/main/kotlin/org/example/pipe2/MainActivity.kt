@@ -8,6 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
+import org.example.pipe2.data.account.local.DummyLocalAccountDB
+import org.example.pipe2.data.account.local.RoomAccountDB
+import org.example.pipe2.data.getAccountDB
 import org.example.pipe2.ui.generalLayout.SetUp
 
 class MainActivity : ComponentActivity() {
@@ -26,8 +29,9 @@ class MainActivity : ComponentActivity() {
             FirebaseApp.initializeApp(this, options)
         }
 
+        val dao = getAccountDB(applicationContext).accountDao()
         setContent {
-            SetUp()
+            SetUp(RoomAccountDB(dao))
         }
     }
 }

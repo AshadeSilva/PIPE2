@@ -1,4 +1,4 @@
-package org.example.pipe2.data.account
+package org.example.pipe2.data.account.remote
 
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.example.pipe2.data.account.local.InvalidCredentialsError
+import org.example.pipe2.data.account.UserDetails
 
 
 class FirebaseAccountDB: RemoteAccountDB, ViewModel() {

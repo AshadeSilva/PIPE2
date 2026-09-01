@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.example.pipe2.data.account.local.LocalAccountDB
+import org.example.pipe2.data.account.remote.RemoteAccountDB
 import org.example.pipe2.utils.logDebug
 
 // ensures that (FOR ACCOUNTS INFORMATION) data flows from remote -> local
@@ -27,12 +29,10 @@ class DatabaseHandler(val remoteAccountDB: RemoteAccountDB, val localAccountDB: 
         }
     }
 
-    /**
-     * Purges a user's data from the local database.
-     * Useful for cleanup on authentication errors or explicit data removal.
-     */
+    // remove user from local if corrupted / actively removed
     fun purgeUser(uid: String) {
-        logDebug("DatabaseHandler", "Purging local data for UID: $uid")
-        localAccountDB.removeUserDocument(uid)
+        viewModelScope.launch {
+            localAccountDB.removeUserDocument(uid)
+        }
     }
 }

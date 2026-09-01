@@ -2,10 +2,10 @@ package org.example.pipe2.logic.account
 
 import kotlinx.coroutines.delay
 import org.example.pipe2.data.account.DatabaseHandler
-import org.example.pipe2.data.account.InvalidCredentialsError
-import org.example.pipe2.data.account.LocalAccountDB
-import org.example.pipe2.data.account.RemoteAccountDB
-import org.example.pipe2.data.account.UserNotFoundError
+import org.example.pipe2.data.account.local.InvalidCredentialsError
+import org.example.pipe2.data.account.local.LocalAccountDB
+import org.example.pipe2.data.account.remote.RemoteAccountDB
+import org.example.pipe2.data.account.local.UserNotFoundError
 
 /**
  * Coordinates the sign-in/sign-out process across local and remote databases.
@@ -78,6 +78,6 @@ class SessionManager(
 
     suspend fun signOut() {
         remote.signOut()
-        userContext.currentUser = null
+        userContext.signOut()
     }
 }

@@ -4,9 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.viewmodel.compose.viewModel
-import org.example.pipe2.data.account.FirebaseAccountDB
+import org.example.pipe2.data.account.remote.FirebaseAccountDB
 import org.example.pipe2.data.account.DatabaseHandler
-import org.example.pipe2.data.account.DummyLocalAccountDB
+import org.example.pipe2.data.account.local.AccountDAO
+import org.example.pipe2.data.account.local.DummyLocalAccountDB
+import org.example.pipe2.data.account.local.LocalAccountDB
+import org.example.pipe2.data.account.local.RoomAccountDB
 import org.example.pipe2.logic.account.SessionManager
 import org.example.pipe2.logic.account.UserContext
 import org.example.pipe2.logic.alarm.LogContext
@@ -22,9 +25,8 @@ val LocalAppContext = staticCompositionLocalOf<AppContext> {
 }
 
 @Composable
-fun rememberAppContext(): AppContext {
+fun rememberAppContext(localAccountDB: LocalAccountDB): AppContext {
     val remoteAccountDB = viewModel { FirebaseAccountDB() }
-    val localAccountDB = DummyLocalAccountDB()
     val databaseHandler = viewModel { DatabaseHandler(remoteAccountDB, localAccountDB) }
 
     val user = viewModel { UserContext(localAccountDB) }
