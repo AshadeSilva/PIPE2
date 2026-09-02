@@ -30,6 +30,10 @@ kotlin {
        }
        withHostTest {}
     }
+
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
     
     sourceSets {
         androidMain.dependencies {

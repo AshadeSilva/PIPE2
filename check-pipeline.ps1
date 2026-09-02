@@ -9,6 +9,11 @@ Write-Host "--- Starting Stage: COMPILE ---" -ForegroundColor Cyan
 
 if ($LASTEXITCODE -ne 0) { Write-Error "Compilation Failed"; exit $LASTEXITCODE }
 
+Write-Host "--- Starting Stage: COMPILE iOS ---" -ForegroundColor Cyan
+./gradlew :shared:compileKotlinIosSimulatorArm64
+
+if ($LASTEXITCODE -ne 0) { Write-Error "iOS Compilation Failed"; exit $LASTEXITCODE }
+
 Write-Host "--- Starting Stage: TEST ---" -ForegroundColor Cyan
 ./gradlew :shared:testAndroidHostTest
 

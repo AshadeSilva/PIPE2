@@ -53,10 +53,10 @@ class SessionManager(
                 val details = remote.signIn(email, password)
                 val uid = details.uid
 
-                // wait for local to sync up
-                while (local.getUserDocument(uid) == null) {
-                    delay(50)
-                }
+                // used to wait for local to sync up - still needed?
+//                while (local.getUserDocument(uid) == null) {
+//                    delay(50)
+//                }
                 return uid
             } catch (e: InvalidCredentialsError) {
                 throw e
