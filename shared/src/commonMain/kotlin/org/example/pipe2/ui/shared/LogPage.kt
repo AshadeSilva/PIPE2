@@ -10,12 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.example.pipe2.logic.LocalAppContext
+import org.example.pipe2.logic.LocalAppLogicContext
 import org.example.pipe2.logic.alarm.Event
 
 @Composable
 fun LogPage() {
-    val log = LocalAppContext.current.log
+    val log = LocalAppLogicContext.current.alarm
     Text(log.title, style = MaterialTheme.typography.headlineMedium)
 
     log.events.forEach {

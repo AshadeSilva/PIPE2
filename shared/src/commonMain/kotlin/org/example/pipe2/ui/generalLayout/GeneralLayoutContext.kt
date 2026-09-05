@@ -9,12 +9,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.example.pipe2.logic.account.Student
-import org.example.pipe2.logic.account.UserContext
-import org.example.pipe2.logic.account.Warden
+import org.example.pipe2.logic.user.UserContext
+import org.example.pipe2.logic.user.UserType
 import org.example.pipe2.logic.alarm.AlarmState
 import org.example.pipe2.logic.alarm.DeactiveState
 import org.example.pipe2.ui.theme.White
+import org.example.pipe2.utils.logDebug
+import kotlin.math.log
 
 class GeneralLayoutContext(private val user: UserContext) : ViewModel() {
 
@@ -30,14 +31,13 @@ class GeneralLayoutContext(private val user: UserContext) : ViewModel() {
         val userContext = user
         viewModelScope.launch {
             snapshotFlow { userContext.currentUser }.collectLatest { newUser ->
-                theme = when (newUser) {
-                    is Student -> AccountTheme.Student
-                    is Warden -> AccountTheme.Warden
+                theme = when (newUser?.type) {
+                    UserType.Student -> AccountTheme.Student
+                    UserType.Warden -> AccountTheme.Warden
                     else -> AccountTheme.None
                 }
-
                 currentPage = theme.pages.first()
-
+                logDebug("ASHADEBUG", "updating UI ${newUser?.email} ${newUser?.type?.type}")
             }
         }
     }

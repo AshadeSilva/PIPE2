@@ -1,12 +1,10 @@
 package org.example.pipe2.data.account.local
 
 import androidx.room3.Dao
-import androidx.room3.Delete
 import androidx.room3.Query
 import androidx.room3.Upsert
 import kotlinx.coroutines.flow.Flow
 import org.example.pipe2.data.account.UserDetails
-import org.example.pipe2.logic.account.User
 
 @Dao // represents a table
 interface AccountDAO {

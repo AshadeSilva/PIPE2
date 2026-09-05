@@ -14,17 +14,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import org.example.pipe2.logic.LocalAppContext
-import org.example.pipe2.logic.account.SessionManager
+import org.example.pipe2.logic.LocalAppLogicContext
+import org.example.pipe2.logic.user.UserContext
 import kotlin.let
 
 @Composable
 fun LoginPage(
-    sessionManager: SessionManager = LocalAppContext.current.sessionManager,
-    context: LogInPageContext = viewModel { LogInPageContext(sessionManager) }
+    userContext: UserContext = LocalAppLogicContext.current.user,
+    context: LogInPageContext = viewModel { LogInPageContext(userContext) }
 ) {
 
     Text("Sign in", style = MaterialTheme.typography.headlineMedium)
@@ -69,7 +68,7 @@ fun LoginPage(
 
 @Composable
 private fun devFirebaseErrorHandler() {
-    val log = LocalAppContext.current.log
+    val log = LocalAppLogicContext.current.alarm
     if (log.error != null) {
         Column(
             modifier = Modifier.padding(top = 16.dp),

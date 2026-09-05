@@ -6,9 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.example.pipe2.logic.account.SessionManager
+import org.example.pipe2.logic.user.UserContext
 
-class LogInPageContext (val sessionManager: SessionManager) : ViewModel() {
+class LogInPageContext(private val userContext: UserContext) : ViewModel() {
     var email by mutableStateOf("")
     var password by mutableStateOf("")
     var isLoading by mutableStateOf(false)
@@ -25,7 +25,7 @@ class LogInPageContext (val sessionManager: SessionManager) : ViewModel() {
 
         viewModelScope.launch {
             try {
-                sessionManager.signIn(email, password)
+                userContext.signIn(email, password)
             } catch (e: Exception) {
                 errorMessage = e.message ?: "Authentication failed"
             } finally {
@@ -35,8 +35,6 @@ class LogInPageContext (val sessionManager: SessionManager) : ViewModel() {
     }
 
     fun signOut() {
-        viewModelScope.launch {
-            sessionManager.signOut()
-        }
+        userContext.signOut()
     }
 }

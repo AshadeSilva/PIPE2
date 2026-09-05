@@ -29,9 +29,9 @@ class MainActivity : ComponentActivity() {
             FirebaseApp.initializeApp(this, options)
         }
 
-        val dao = getAccountDB(applicationContext).accountDao()
+        val db = getAccountDB(applicationContext)
         setContent {
-            SetUp(RoomAccountDB(dao))
+            SetUp(RoomAccountDB(db))
         }
     }
 }

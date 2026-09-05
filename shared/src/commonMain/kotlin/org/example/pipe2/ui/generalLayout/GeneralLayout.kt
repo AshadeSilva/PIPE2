@@ -16,12 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import org.example.pipe2.logic.LocalAppContext
-import org.example.pipe2.logic.account.UserContext
+import org.example.pipe2.logic.LocalAppLogicContext
+import org.example.pipe2.logic.user.UserContext
 
 @Composable
 fun GeneralLayout(
-    userContext: UserContext = LocalAppContext.current.user,
+    userContext: UserContext = LocalAppLogicContext.current.user,
     ui: GeneralLayoutContext = viewModel { GeneralLayoutContext(userContext) }
 ) {
     // will save the view models of the pages

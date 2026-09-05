@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.example.pipe2.data.alarm.FirestoreLog
 import org.example.pipe2.data.alarm.Log
-import org.example.pipe2.logic.account.User
-import org.example.pipe2.logic.account.Warden
-import org.example.pipe2.logic.account.UserContext
+import org.example.pipe2.logic.user.User
+import org.example.pipe2.logic.user.UserContext
+import org.example.pipe2.logic.user.UserType
 
 // container for the log to be in. Sometimes empty. Same object throughout
 // type of Log class is chosen in createLog
-class LogContext(user: UserContext) : ViewModel() {
+class AlarmContext(user: UserContext) : ViewModel() {
 
     var title by mutableStateOf("No Log Open")
     private var log by mutableStateOf<Log?>(null)
@@ -47,7 +47,7 @@ class LogContext(user: UserContext) : ViewModel() {
     }
 
     fun updateLogStatus(user: User) {
-        if (user is Warden)
+        if (user.type == UserType.Warden)
         {
             createLog("example_alarm")
         } else {

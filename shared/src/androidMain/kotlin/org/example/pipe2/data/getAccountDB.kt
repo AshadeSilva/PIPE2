@@ -4,6 +4,8 @@ import android.content.Context // context == information about app. eg where are
 import androidx.room3.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import org.example.pipe2.data.account.local.AccountDB
+import org.example.pipe2.data.account.local.AccountDBConstructor
+import org.example.pipe2.data.account.local.MIGRATION_1_2
 
 
 // find/build the local database for storing account-based information
@@ -12,6 +14,8 @@ fun getAccountDB(context: Context): AccountDB  =
     Room.databaseBuilder<AccountDB>(
         context = context.applicationContext,
         name = context.getDatabasePath("accounts.db").absolutePath,
+        factory =  { AccountDBConstructor.initialize() }
     )
+        .addMigrations(MIGRATION_1_2)
         .setDriver(BundledSQLiteDriver())
         .build()
