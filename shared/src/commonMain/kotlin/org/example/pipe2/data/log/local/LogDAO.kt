@@ -9,7 +9,7 @@ import org.example.pipe2.data.log.EventDetails
 @Dao // represents a table
 interface LogDAO {
     @Query("SELECT * FROM Log ORDER BY time ASC")
-    fun getCurrentEvents(): List<EventDetails>
+    suspend fun getCurrentEvents(): List<EventDetails>
 
     @Query("SELECT * FROM Log ORDER BY time ASC")
     fun getNewEvents(): Flow<List<EventDetails>>
