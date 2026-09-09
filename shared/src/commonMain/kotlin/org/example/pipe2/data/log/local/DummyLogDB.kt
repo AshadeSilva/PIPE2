@@ -11,15 +11,8 @@ import org.example.pipe2.utils.logDebug
 class DummyLogDB(): LocalLogDB {
     private var events = MutableStateFlow<List<EventDetails>>(emptyList())
 
-    override suspend fun appendLog(eventDetails: EventDetails) {
-            try {
-                events.update { it + eventDetails }
-            } catch (e: Exception) {
-                logDebug("ASHADEBUG", "from dummy log db append log")
-                logDebug("ASHADEBUG", e.message.toString())
-                throw e
-            }
-        }
+    override suspend fun appendLog(eventDetails: EventDetails) =
+        events.update { it + eventDetails }
 
     override suspend fun getLog(): List<EventDetails> = events.value
 

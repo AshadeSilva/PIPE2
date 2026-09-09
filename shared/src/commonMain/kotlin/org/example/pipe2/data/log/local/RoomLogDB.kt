@@ -13,14 +13,6 @@ class RoomLogDB(room: RoomDB): LocalLogDB {
     override suspend fun getLog(): List<EventDetails> = log.getCurrentEvents()
     override suspend fun watchLog(): Flow<List<EventDetails>> = log.getNewEvents()
     override suspend fun clearLog() = log.clearAll()
-    override suspend fun appendLog(eventDetails: EventDetails) {
-        try {
-            log.upsert(eventDetails)
-        } catch (e: Exception) {
-            if (e is kotlinx.coroutines.CancellationException) throw e
-            logDebug("ASHADEBUG", "from room log db append log")
-            logDebug("ASHADEBUG", e.message.toString())
-            throw e
-        }
-    }
+    override suspend fun appendLog(eventDetails: EventDetails) =
+        log.upsert(eventDetails)
 }
