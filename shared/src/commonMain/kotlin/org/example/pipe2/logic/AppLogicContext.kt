@@ -4,9 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.viewmodel.compose.viewModel
-import org.example.pipe2.data.account.DatabaseSyncer
-import org.example.pipe2.data.account.UserSyncer
-import org.example.pipe2.data.account.remote.RemoteAuth
+import org.example.pipe2.data.account.AccountDatabaseSyncer
+import org.example.pipe2.data.account.AccountLogicSyncer
+import org.example.pipe2.data.auth.remote.RemoteAuth
+import org.example.pipe2.data.log.LogDatabaseSyncer
+import org.example.pipe2.data.log.LogLogicSyncer
 import org.example.pipe2.logic.user.UserContext
 import org.example.pipe2.logic.alarm.AlarmContext
 
@@ -20,8 +22,14 @@ val LocalAppLogicContext = staticCompositionLocalOf<AppLogicContext> {
 }
 
 @Composable
-fun rememberAppContext(dbSyncer: DatabaseSyncer, userSyncer: UserSyncer, auth: RemoteAuth): AppLogicContext {
-    val user = UserContext(auth, dbSyncer, userSyncer)
-    val log = viewModel { AlarmContext(user) }
+fun rememberAppContext(
+    dbSyncer: AccountDatabaseSyncer,
+    accountLogicSyncer: AccountLogicSyncer,
+    auth: RemoteAuth,
+    logDbSyncer: LogDatabaseSyncer,
+    logLogicSyncer: LogLogicSyncer
+): AppLogicContext {
+    val user = viewModel { UserContext(auth, dbSyncer, accountLogicSyncer) }
+    val log = viewModel { AlarmContext(user, logDbSyncer, logLogicSyncer) }
     return remember(user, log) { AppLogicContext(user, log) }
 }

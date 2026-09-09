@@ -1,4 +1,4 @@
-package org.example.pipe2.data.account.remote
+package org.example.pipe2.data.auth.remote
 
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseAuthException

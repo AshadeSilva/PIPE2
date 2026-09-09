@@ -1,15 +1,10 @@
-package org.example.pipe2.data.account.local
+package org.example.pipe2.data.auth.local
 
-import androidx.room3.ConstructedBy
 import androidx.room3.Dao
-import androidx.room3.Database
 import androidx.room3.Entity
 import androidx.room3.PrimaryKey
 import androidx.room3.Query
-import androidx.room3.RoomDatabase
-import androidx.room3.RoomDatabaseConstructor
 import androidx.room3.Upsert
-import org.example.pipe2.data.account.UserDetails
 
 // record
 @Entity(tableName = "Sessions") // represents a record in a database table

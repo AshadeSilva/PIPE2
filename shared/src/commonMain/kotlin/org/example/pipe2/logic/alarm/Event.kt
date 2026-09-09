@@ -10,24 +10,25 @@ import org.example.pipe2.logic.alarm.Status
 import kotlin.time.Instant
 
 interface Event {
+    val id: String
     val sender: String
-    val time: Timestamp
+    val time: Instant
     val name: String
     fun printTime(): String {
         val dateTimeFormat = LocalDateTime.Format {
             hour(); char(':'); minute(); char(' ')
             day(); char('/'); monthNumber(); char('/'); yearTwoDigits(2000)
         }
-        val instant = Instant.fromEpochSeconds(time.seconds, time.nanoseconds)
-        val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+        val localDateTime = time.toLocalDateTime(TimeZone.currentSystemDefault())
         return localDateTime.format(dateTimeFormat)
     }
 
 }
 
 class StatusUpdateEvent(
+    override val id: String,
     override val sender: String,
-    override val time: Timestamp,
+    override val time: Instant,
     val student: String,
     val status: Status
 ): Event {
@@ -35,8 +36,9 @@ class StatusUpdateEvent(
 }
 
 class MessageEvent(
+    override val id: String,
     override val sender: String,
-    override val time: Timestamp,
+    override val time: Instant,
     val recipient: String,
     val contents: String
 ) : Event {
@@ -44,22 +46,25 @@ class MessageEvent(
 }
 
 class StartEvent(
+    override val id: String,
     override val sender: String,
-    override val time: Timestamp
+    override val time: Instant
 ) : Event {
     override val name = "Start"
 }
 
 class EndEvent(
+    override val id: String,
     override val sender: String,
-    override val time: Timestamp
+    override val time: Instant
 ) : Event {
     override val name = "End"
 }
 
 class ErrorEvent(
+    override val id: String,
     override val sender: String,
-    override val time: Timestamp
+    override val time: Instant
 ) : Event {
     override val name = "Event Could Not Load"
 }

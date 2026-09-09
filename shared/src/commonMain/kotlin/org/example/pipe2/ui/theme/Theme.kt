@@ -15,11 +15,11 @@ private val DarkColorScheme = darkColorScheme(
     surface = MediumGrey,
     onPrimary = DarkGrey, // active alarm button text
     onSecondary = White,
-    onTertiary = ChangeColor,
-    onBackground = ChangeColor,
+    onTertiary = DarkGrey,
+    onBackground = DarkGrey,
     onSurface = White,
     primaryContainer = ChangeColor,
-    onPrimaryContainer = ChangeColor
+    onPrimaryContainer = ChangeColor // Alarm log text, info bar text
 )
 
 @Composable

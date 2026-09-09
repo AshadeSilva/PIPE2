@@ -4,12 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Alignment
@@ -27,30 +27,29 @@ fun GeneralLayout(
     // will save the view models of the pages
     val saveableStateHolder = rememberSaveableStateHolder()
 
-    Column(
-        modifier = Modifier.Companion
+    Scaffold(
+        modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
             .safeContentPadding()
             .fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Companion.CenterHorizontally,
-    ) {
-        InfoBar(ui)
-        ui.currentPage.bar(ui)
+        topBar = {
+            Column {
+                InfoBar(ui)
+                ui.currentPage.bar(ui)
+            }
+        },
+        bottomBar = {BottomNavBar(ui)}
+    ) { innerPadding ->
         Column(
-            modifier = Modifier.Companion
-                .weight(1f)
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            horizontalAlignment = Alignment.Companion.CenterHorizontally,
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-
             saveableStateHolder.SaveableStateProvider(key = ui.currentPage.name) {
-                ui.currentPage.Contents()
+                ui.currentPage.contents()
             }
         }
-        BottomNavBar(ui)
     }
 }

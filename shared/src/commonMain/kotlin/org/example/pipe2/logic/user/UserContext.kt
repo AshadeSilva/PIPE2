@@ -3,6 +3,9 @@ package org.example.pipe2.logic.user
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -11,37 +14,35 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.example.pipe2.data.account.DatabaseSyncer
-import org.example.pipe2.data.account.UserSyncer
+import org.example.pipe2.data.account.AccountDatabaseSyncer
+import org.example.pipe2.data.account.AccountLogicSyncer
 import org.example.pipe2.data.account.CorruptedAccountError
 import org.example.pipe2.data.account.ForceSignOut
-import org.example.pipe2.data.account.IncorrectPassword
 import org.example.pipe2.data.account.UserNotFoundError
-import org.example.pipe2.data.account.remote.RemoteAuth
+import org.example.pipe2.data.auth.remote.RemoteAuth
 import org.example.pipe2.utils.logDebug
-import kotlin.math.sign
 
 class UserContext(
     private val auth: RemoteAuth,
-    private val dbSync: DatabaseSyncer,
-    private val userSync: UserSyncer
-) {
+    private val dbSync: AccountDatabaseSyncer,
+    private val userSync: AccountLogicSyncer
+) : ViewModel() {
 
     var currentUser by mutableStateOf<User?>(null)
         private set
+
+    val currentUserFlow: Flow<User?> = snapshotFlow { currentUser }
     private var currentUserSession: UserSession? = null
         get() = field
         set(value) {
             field = value
-            logDebug("ASHADEBUG", "signed in ${value?.uid}")
         }
 
     // app lifetime
-    val generalScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private var signInLock = Mutex()
 
     // signInLifetime
@@ -60,14 +61,25 @@ class UserContext(
 
     init {
         // remember who was signed in before
-        generalScope.launch {
-            val savedUID = dbSync.getUser()
-            if (savedUID!=null){
-                val exceptionHandler = CoroutineExceptionHandler { _, _ -> signOut() }
-                val userSessionScope = CoroutineScope(SupervisorJob() + Dispatchers.Default + exceptionHandler)
-                currentUserSession = UserSession(savedUID, dbSync, userSync, userSessionScope)
+        viewModelScope.launch {
+            signInLock.withLock {
+                if (currentUserSession != null) return@launch // Already signed in via manual call
+
+                val savedUID = dbSync.getUser()
+                if (savedUID != null) {
+                    val exceptionHandler = CoroutineExceptionHandler { _, _ -> signOut() }
+                    val userSessionScope =
+                        CoroutineScope(SupervisorJob() + Dispatchers.Default + exceptionHandler)
+
+                    updateSession(UserSession(savedUID, dbSync, userSync, userSessionScope))
+                }
             }
         }
+    }
+
+    private fun updateSession(newSession: UserSession?) {
+        currentUserSession?.removeUser()
+        currentUserSession = newSession
     }
 
     suspend fun signIn(email: String, password: String) {
@@ -86,24 +98,24 @@ class UserContext(
             try {
                 authenticate(email, password)
                 // uid should be non null, or exception
-                logDebug("ASHADEBUG", "authenticated ${signIn.uid}")
 
                 if (signIn.uid != currentUserSession?.uid) {
 
                     dbSync.rememberUser(signIn.uid!!)
                     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-                        generalScope.launch { signOut() }
+                        viewModelScope.launch { signOut() }
                     }
-                    val userSessionScope = CoroutineScope(SupervisorJob() + Dispatchers.Default + exceptionHandler)
+                    val userSessionScope =
+                        CoroutineScope(SupervisorJob() + Dispatchers.Default + exceptionHandler)
 
-                    currentUserSession?.removeUser()
-                    currentUserSession = UserSession(
-                        signIn.uid!!,
-                        dbSync,
-                        userSync,
-                        userSessionScope
+                    updateSession(
+                        UserSession(
+                            signIn.uid!!,
+                            dbSync,
+                            userSync,
+                            userSessionScope
+                        )
                     )
-                    logDebug("ASHADEBUG", "made user ")
                     continueAuth(email, password, userSessionScope)
                 }
             } catch (e: Exception) {
@@ -112,7 +124,7 @@ class UserContext(
 //                    is IncorrectPassword -> throw e
                     is ForceSignOut -> signOut()
                     is CorruptedAccountError -> {
-                        generalScope.launch {
+                        viewModelScope.launch {
                             signIn.uid?.let { dbSync.removeUser(it) }
                         }
                         signOut()
@@ -152,11 +164,11 @@ class UserContext(
     }
 
     fun signOut() {
+        currentUser = null
         signInLifetime?.scope?.cancel()
         signInLifetime = null
-        currentUserSession?.removeUser() // cancels the user-life scope
-        currentUserSession = null
-        generalScope.launch {
+        updateSession(null)
+        viewModelScope.launch {
             dbSync.forgetUser()
             auth.signOut()
         }
@@ -164,13 +176,14 @@ class UserContext(
 
     private inner class UserSession(
         val uid: String,
-        private val dbSyncer: DatabaseSyncer,
-        private val userSyncer: UserSyncer,
+        private val dbSyncer: AccountDatabaseSyncer,
+        private val accountLogicSyncer: AccountLogicSyncer,
         private val scope: CoroutineScope
     ) {
 
         init {
             currentUser = User(uid)
+            logDebug("ASHADEBUG", "user switched $uid")
             signIn()
         }
 
@@ -179,11 +192,14 @@ class UserContext(
         }
 
         private fun signIn() {
-            scope.launch { dbSyncer.start(uid) } // start remote
             scope.launch {
-                userSyncer.observeUser(uid).collect { newUser ->
+                dbSyncer.start(uid)
+            } // start remote
+            scope.launch {
+                accountLogicSyncer.observeUser(uid).collect { newUser ->
                     if (newUser != null) {
                         currentUser = newUser
+                        logDebug("ASHADEBUG", "user: ${currentUser?.email}")
                     }
                 }
             } // start local

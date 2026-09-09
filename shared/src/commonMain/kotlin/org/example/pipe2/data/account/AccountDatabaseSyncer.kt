@@ -5,16 +5,19 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import org.example.pipe2.data.account.local.LocalAccountDB
 import org.example.pipe2.data.account.remote.RemoteAccountDB
-import org.example.pipe2.data.account.remote.RemoteAuth
+import org.example.pipe2.data.auth.local.LocalAuthDB
+import org.example.pipe2.data.auth.remote.RemoteAuth
 import org.example.pipe2.utils.logDebug
 
 // ensures that (FOR ACCOUNTS INFORMATION) data flows from remote -> local
 // any account details fetched from remote are updated in local
-class DatabaseSyncer(private val remote: RemoteAccountDB, private val local: LocalAccountDB,
-    // TODO: should be global
+class AccountDatabaseSyncer(
+    private val remote: RemoteAccountDB,
+    private val local: LocalAccountDB,
+    private val localAuth: LocalAuthDB,
     private val auth: RemoteAuth
 ) {
-
+    // store users
     suspend fun start(uid: String) {
         var active = true
         while (active) {
@@ -47,18 +50,18 @@ class DatabaseSyncer(private val remote: RemoteAccountDB, private val local: Loc
             throw CorruptedAccountError(uid)
         } else {
             local.updateDetails(details)
-            logDebug("ASHADEBUG", "remote updating details with ${details.email}")
-
         }
+    }
+    suspend fun removeUser(uid: String) {
+        local.removeUser(uid)
     }
 
     suspend fun localAuth(email: String, password: String): String = local.getAccount(email, password)
 
-    suspend fun rememberUser(uid: String) = local.rememberUser(uid)
-    suspend fun forgetUser() = local.forgetUser()
-    suspend fun getUser(): String? = local.getUser()
+    // remember previous user
+    suspend fun rememberUser(uid: String) = localAuth.rememberUser(uid)
+    suspend fun forgetUser() = localAuth.forgetUser()
+    suspend fun getUser(): String? = localAuth.getUser()
 
-    suspend fun removeUser(uid: String) {
-        local.removeUser(uid)
-    }
+
 }

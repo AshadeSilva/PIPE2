@@ -1,13 +1,15 @@
-package org.example.pipe2.data.account.local
+package org.example.pipe2.data
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import org.example.pipe2.data.account.UserDetails
 import org.example.pipe2.data.account.UserNotFoundError
-import kotlin.String
+import org.example.pipe2.data.account.local.LocalAccountDB
+import org.example.pipe2.data.auth.local.LocalAuthDB
+import org.example.pipe2.data.auth.local.LoggedIn
 
-class DummyLocalAccountDB: LocalAccountDB {
+class DummyLocalDB: LocalAccountDB, LocalAuthDB {
 
     private var currentUser: LoggedIn? = null
 

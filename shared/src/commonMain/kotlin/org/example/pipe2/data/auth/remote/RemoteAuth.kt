@@ -1,4 +1,4 @@
-package org.example.pipe2.data.account.remote
+package org.example.pipe2.data.auth.remote
 
 interface RemoteAuth {
 

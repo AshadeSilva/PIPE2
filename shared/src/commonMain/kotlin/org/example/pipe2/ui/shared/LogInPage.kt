@@ -1,8 +1,12 @@
 package org.example.pipe2.ui.shared
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -26,44 +30,54 @@ fun LoginPage(
     context: LogInPageContext = viewModel { LogInPageContext(userContext) }
 ) {
 
-    Text("Sign in", style = MaterialTheme.typography.headlineMedium)
-
-    // dev cheat buttons to quickly sign in
-    devSignIn("warden", context)
-    devSignIn("student", context)
-
-    // type in email/password
-    signInTextField("Name", context.email, {context.email = it}, VisualTransformation.None, true)
-    signInTextField("Password", context.password, {context.password = it}, PasswordVisualTransformation(), true)
-
-    // submit button
-    Button(
-        onClick = { context.signInOrSignUp() },
-        modifier = Modifier.fillMaxWidth(),
-        enabled = !context.isLoading,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.onPrimary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
-        )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+        horizontalAlignment = Alignment.Companion.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
-        Text(if (context.isLoading) "Processing..." else "Log In / Sign Up")
+        Text("Sign in", style = MaterialTheme.typography.headlineMedium)
+
+        // dev cheat buttons to quickly sign in
+        devSignIn("warden", context)
+        devSignIn("student", context)
+
+        // type in email/password
+        signInTextField("Name", context.email, {context.email = it}, VisualTransformation.None, true)
+        signInTextField("Password", context.password, {context.password = it}, PasswordVisualTransformation(), true)
+
+        // submit button
+        Button(
+            onClick = { context.signInOrSignUp() },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !context.isLoading,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+                contentColor = MaterialTheme.colorScheme.onSecondary
+            )
+        ) {
+            Text(if (context.isLoading) "Processing..." else "Log In / Sign Up")
+        }
+
+        context.errorMessage?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+
+        // log out button
+        Button(
+            onClick = { context.signOut() },
+            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+                contentColor = MaterialTheme.colorScheme.onSecondary
+            )
+        ) {
+            Text("Log Out")
+        }
+
+        devFirebaseErrorHandler()
     }
 
-    context.errorMessage?.let { Text(it, color = MaterialTheme.colorScheme.error) }
-
-    // log out button
-    Button(
-        onClick = { context.signOut() },
-        modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.onPrimary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
-        )
-    ) {
-        Text("Log Out")
-    }
-
-    devFirebaseErrorHandler()
 }
 
 @Composable

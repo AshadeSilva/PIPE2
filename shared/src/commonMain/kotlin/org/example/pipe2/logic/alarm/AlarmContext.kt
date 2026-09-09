@@ -2,65 +2,74 @@ package org.example.pipe2.logic.alarm
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.example.pipe2.data.alarm.FirestoreLog
-import org.example.pipe2.data.alarm.Log
-import org.example.pipe2.logic.user.User
+import org.example.pipe2.data.log.LogDatabaseSyncer
+import org.example.pipe2.data.log.LogLogicSyncer
 import org.example.pipe2.logic.user.UserContext
 import org.example.pipe2.logic.user.UserType
 
 // container for the log to be in. Sometimes empty. Same object throughout
 // type of Log class is chosen in createLog
-class AlarmContext(user: UserContext) : ViewModel() {
+class AlarmContext(private val userContext: UserContext, val dbSyncer: LogDatabaseSyncer, val logicSyncer: LogLogicSyncer): ViewModel() {
 
     var title by mutableStateOf("No Log Open")
-    private var log by mutableStateOf<Log?>(null)
+    var events = mutableStateListOf<Event>()
+    var error by mutableStateOf<Throwable?>(null)
+    private var watchJob: Job? = null
 
     init {
-        observeUserChanges(user)
+        // current crude version only has one alarm, so just watch user
+        observeUserChanges()
     }
 
-    private fun observeUserChanges(userContext: UserContext) {
-        viewModelScope.launch {
-            snapshotFlow { userContext.currentUser }.collectLatest { newUser ->
-                if (newUser != null) {
-                    updateLogStatus(newUser)
+    private var watchingAlarmId: String? = null
+
+    private fun startWatching(alarmId: String) {
+        if (watchingAlarmId == alarmId) return
+        watchingAlarmId = alarmId
+
+        watchJob?.cancel()
+        error = null
+        watchJob = viewModelScope.launch {
+            launch {
+                try {
+                    dbSyncer.start(alarmId)
+                } catch (e: Exception) {
+                    error = e
                 }
             }
+            launch { logicSyncer.loadLog(events) }
+            title = "Alarm log: " + alarmId
         }
-    }
-
-    val events: List<Event>
-        get() = log?.events ?: listOf()
-    val error: Exception?
-        get() = log?.lastError
-
-    fun createLog(alarmId: String) {
-        // note: using viewModelScope for cleaning up CoRoutine for firestore listening
-        log = FirestoreLog(alarmId, viewModelScope)
-        title = "Log: $alarmId"
-    }
-
-    fun updateLogStatus(user: User) {
-        if (user.type == UserType.Warden)
-        {
-            createLog("example_alarm")
-        } else {
-            closeLog()
-        }
-    }
-
-    fun closeLog() {
-        log = null
-        title = "No Log Open"
     }
 
     fun crash() {
-        log?.triggerCrash()
+        error?.let { throw it }
     }
+
+    // if theres a new user, clear
+    private fun observeUserChanges() {
+        viewModelScope.launch {
+            userContext.currentUserFlow.collectLatest { newUser ->
+                if (newUser?.type == UserType.Warden) {
+                    startWatching("example_alarm")
+                } else {
+                    watchJob?.cancel()
+                    watchJob = null
+                    watchingAlarmId = null
+                    events.clear()
+                    title = "No Log Open"
+                }
+            }
+        }
+
+    }
+
+
 }

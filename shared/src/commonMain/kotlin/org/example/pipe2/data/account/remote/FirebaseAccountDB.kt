@@ -26,6 +26,6 @@ class FirebaseAccountDB: RemoteAccountDB {
         username = this.get("username"),
         building = this.get("building"),
         email = this.get("email"),
-        type = this.get("account_type")
+        type = this.get("account_type"),
     )
 }

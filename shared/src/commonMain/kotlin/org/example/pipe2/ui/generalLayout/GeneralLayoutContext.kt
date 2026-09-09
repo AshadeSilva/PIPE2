@@ -15,7 +15,6 @@ import org.example.pipe2.logic.alarm.AlarmState
 import org.example.pipe2.logic.alarm.DeactiveState
 import org.example.pipe2.ui.theme.White
 import org.example.pipe2.utils.logDebug
-import kotlin.math.log
 
 class GeneralLayoutContext(private val user: UserContext) : ViewModel() {
 
@@ -31,13 +30,15 @@ class GeneralLayoutContext(private val user: UserContext) : ViewModel() {
         val userContext = user
         viewModelScope.launch {
             snapshotFlow { userContext.currentUser }.collectLatest { newUser ->
-                theme = when (newUser?.type) {
+                val newTheme = when (newUser?.type) {
                     UserType.Student -> AccountTheme.Student
                     UserType.Warden -> AccountTheme.Warden
                     else -> AccountTheme.None
                 }
-                currentPage = theme.pages.first()
-                logDebug("ASHADEBUG", "updating UI ${newUser?.email} ${newUser?.type?.type}")
+                if (newTheme != theme) {
+                    theme = newTheme
+                    currentPage = theme.pages.first()
+                }
             }
         }
     }

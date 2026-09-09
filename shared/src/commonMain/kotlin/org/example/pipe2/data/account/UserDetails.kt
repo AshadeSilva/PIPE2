@@ -12,5 +12,5 @@ data class UserDetails (
     val username: String?,
     val building: String?,
     val email: String?,
-    val type: String?
+    val type: String?,
 )

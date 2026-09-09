@@ -8,9 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
-import org.example.pipe2.data.account.local.DummyLocalAccountDB
+import org.example.pipe2.data.LocalDBCollection
+import org.example.pipe2.data.RoomDB
+import org.example.pipe2.data.RoomDBCollection
 import org.example.pipe2.data.account.local.RoomAccountDB
-import org.example.pipe2.data.getAccountDB
+import org.example.pipe2.data.auth.local.RoomAuthDB
+import org.example.pipe2.data.getRoomDB
 import org.example.pipe2.ui.generalLayout.SetUp
 
 class MainActivity : ComponentActivity() {
@@ -29,9 +32,8 @@ class MainActivity : ComponentActivity() {
             FirebaseApp.initializeApp(this, options)
         }
 
-        val db = getAccountDB(applicationContext)
         setContent {
-            SetUp(RoomAccountDB(db))
+            SetUp(RoomDBCollection(getRoomDB(applicationContext)))
         }
     }
 }
