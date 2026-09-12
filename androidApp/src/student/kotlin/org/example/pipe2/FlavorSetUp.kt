@@ -13,7 +13,7 @@ fun initializeFirebase(context: Context) {
     if (FirebaseApp.getApps(context).isEmpty()) {
         val options = FirebaseOptions.Builder()
             .setApiKey("AIzaSyB5nPduXTw68_TFf7qbyU3dA6M_txDqi_8")
-            .setApplicationId("1:300535801602:android:39aab40f503f76ee74841b") // TODO: Replace with Student App ID from Firebase Console
+            .setApplicationId("1:300535801602:android:39aab40f503f76ee74841b")
             .setProjectId("pipe1002-220a8")
             .setStorageBucket("pipe1002-220a8.firebasestorage.app")
             .build()

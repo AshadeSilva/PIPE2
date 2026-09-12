@@ -2,7 +2,8 @@
 # Local Pipeline Check Script
 # This mimics the steps run in the GitHub Actions CI/CD pipeline
 
-$env:APK_PATH="androidApp/build/outputs/apk/release/androidApp-release.apk"
+$env:STUDENT_APK_PATH="androidApp/build/outputs/apk/student/release/androidApp-student-release.apk"
+$env:WARDEN_APK_PATH="androidApp/build/outputs/apk/warden/release/androidApp-warden-release.apk"
 
 Write-Host "--- Starting Stage: COMPILE ---" -ForegroundColor Cyan
 ./gradlew :androidApp:assembleRelease
