@@ -2,7 +2,8 @@
 name: KMP CI/CD
 
 env:
-  APK_PATH: androidApp/build/outputs/apk/release/androidApp-release.apk
+  STUDENT_APK_PATH: androidApp/build/outputs/apk/student/release/androidApp-student-release.apk
+  WARDEN_APK_PATH: androidApp/build/outputs/apk/warden/release/androidApp-warden-release.apk
 
 # run this workflow when I push to any branch
 on:
@@ -40,11 +41,11 @@ jobs:
         run: ./gradlew :androidApp:assembleRelease
 
       # save the apk to repo
-      - name: Upload APK Artifact
+      - name: Upload APK Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: android-release-apk
-          path: ${{ env.APK_PATH }}
+          name: android-release-apks
+          path: androidApp/build/outputs/apk/*/release/*.apk
 
   compile-ios:
     name: "Compile: iOS (Verification)"
@@ -114,11 +115,11 @@ jobs:
       - uses: actions/checkout@v4
 
       # download apk from the repo
-      - name: Download APK Artifact
+      - name: Download APK Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: android-release-apk
-          path: androidApp/build/outputs/apk/release/
+          name: android-release-apks
+          path: androidApp/build/outputs/apk/
 
       # Authenticate using the Service Account
       - id: 'auth'
@@ -127,11 +128,20 @@ jobs:
           credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
 
       # Run Firebase CLI via npx
-      - name: Distribute to Firebase App Distribution
+      - name: Distribute Student to Firebase
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
         run: |
-          npx firebase-tools appdistribution:distribute "${{ env.APK_PATH }}" \
-            --app "${{ secrets.FIREBASE_ANDROID_APP_ID }}" \
+          npx firebase-tools appdistribution:distribute "${{ env.STUDENT_APK_PATH }}" \
+            --app "${{ secrets.FIREBASE_STUDENT_APP_ID }}" \
             --groups internal-dev \
-            --release-notes "New build from GitHub Actions"
+            --release-notes "Student build from GitHub Actions"
+
+      - name: Distribute Warden to Firebase
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+        run: |
+          npx firebase-tools appdistribution:distribute "${{ env.WARDEN_APK_PATH }}" \
+            --app "${{ secrets.FIREBASE_WARDEN_APP_ID }}" \
+            --groups internal-dev \
+            --release-notes "Warden build from GitHub Actions"

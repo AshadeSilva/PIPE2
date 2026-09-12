@@ -38,6 +38,27 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        manifestPlaceholders["appPrefix"] = ""
+        manifestPlaceholders["appName"] = "Pipe2"
+    }
+    buildFeatures {
+        buildConfig = true
+    }
+    flavorDimensions += "appType"
+    productFlavors {
+        create("student") {
+            dimension = "appType"
+            applicationIdSuffix = ".student"
+            versionNameSuffix = "-student"
+            manifestPlaceholders["appName"] = "PipeStudent"
+        }
+        create("warden") {
+            dimension = "appType"
+            applicationIdSuffix = ".warden"
+            versionNameSuffix = "-warden"
+            manifestPlaceholders["appName"] = "PipeWarden"
+        }
     }
     packaging {
         resources {
@@ -48,6 +69,7 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
+            manifestPlaceholders["appPrefix"] = "Local"
             // Disable Crashlytics for debug builds to speed up compilation
             configure<com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension> {
                 mappingFileUploadEnabled = false
@@ -56,6 +78,7 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
+            manifestPlaceholders["appPrefix"] = ""
         }
     }
     compileOptions {

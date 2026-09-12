@@ -23,13 +23,14 @@ import org.example.pipe2.data.account.AccountLogicSyncer
 import org.example.pipe2.data.account.CorruptedAccountError
 import org.example.pipe2.data.account.ForceSignOut
 import org.example.pipe2.data.account.UserNotFoundError
-import org.example.pipe2.data.auth.remote.RemoteAuth
+import org.example.pipe2.data.account.remote.RemoteAuth
 import org.example.pipe2.utils.logDebug
 
 class UserContext(
     private val auth: RemoteAuth,
     private val dbSync: AccountDatabaseSyncer,
-    private val userSync: AccountLogicSyncer
+    private val userSync: AccountLogicSyncer,
+    private val type: UserType
 ) : ViewModel() {
 
     var currentUser by mutableStateOf<User?>(null)
@@ -65,7 +66,7 @@ class UserContext(
             signInLock.withLock {
                 if (currentUserSession != null) return@launch // Already signed in via manual call
 
-                val savedUID = dbSync.getUser()
+                val savedUID = userSync.lastUid()
                 if (savedUID != null) {
                     val exceptionHandler = CoroutineExceptionHandler { _, _ -> signOut() }
                     val userSessionScope =
@@ -100,23 +101,23 @@ class UserContext(
                 // uid should be non null, or exception
 
                 if (signIn.uid != currentUserSession?.uid) {
+                    //user has changed
 
-                    dbSync.rememberUser(signIn.uid!!)
                     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
                         viewModelScope.launch { signOut() }
                     }
                     val userSessionScope =
                         CoroutineScope(SupervisorJob() + Dispatchers.Default + exceptionHandler)
 
-                    updateSession(
-                        UserSession(
-                            signIn.uid!!,
-                            dbSync,
-                            userSync,
-                            userSessionScope
-                        )
+                    val session = UserSession(
+                        signIn.uid!!,
+                        dbSync,
+                        userSync,
+                        userSessionScope
                     )
+                    updateSession(session)
                     continueAuth(email, password, userSessionScope)
+                    session.verifiedDeferred.await()
                 }
             } catch (e: Exception) {
                 when (e) {
@@ -124,12 +125,15 @@ class UserContext(
 //                    is IncorrectPassword -> throw e
                     is ForceSignOut -> signOut()
                     is CorruptedAccountError -> {
-                        viewModelScope.launch {
-                            signIn.uid?.let { dbSync.removeUser(it) }
-                        }
                         signOut()
+                        throw e
                     }
-                    else -> throw e
+                    else -> {
+                        if (e.message == "Incorrect account type") {
+                            signOut()
+                        }
+                        throw e
+                    }
                 }
             } finally {
                 registration?.dispose()
@@ -143,7 +147,7 @@ class UserContext(
     suspend fun authenticate(email:String, password:String) {
         // local signIn (should succeed immediately unless new user)
         try {
-            signInLifetime?.setUid(dbSync.localAuth(email, password)           ) // may throw incorrect password
+            signInLifetime?.setUid(userSync.getAccount(email, password)           ) // may throw incorrect password
         } catch (e: UserNotFoundError){
             // ignore and check remote
         }
@@ -169,7 +173,6 @@ class UserContext(
         signInLifetime = null
         updateSession(null)
         viewModelScope.launch {
-            dbSync.forgetUser()
             auth.signOut()
         }
     }
@@ -180,14 +183,14 @@ class UserContext(
         private val accountLogicSyncer: AccountLogicSyncer,
         private val scope: CoroutineScope
     ) {
+        val verifiedDeferred = kotlinx.coroutines.CompletableDeferred<Unit>()
 
         init {
-            currentUser = User(uid)
-            logDebug("ASHADEBUG", "user switched $uid")
             signIn()
         }
 
         fun removeUser() {
+            currentUser = null
             scope.cancel()
         }
 
@@ -196,15 +199,32 @@ class UserContext(
                 dbSyncer.start(uid)
             } // start remote
             scope.launch {
-                accountLogicSyncer.observeUser(uid).collect { newUser ->
-                    if (newUser != null) {
-                        currentUser = newUser
-                        logDebug("ASHADEBUG", "user: ${currentUser?.email}")
+                try {
+                    accountLogicSyncer.observeUser(uid).collect { newUser ->
+                        if (newUser != null) {
+                            setUser(newUser)
+                        }
                     }
+                } catch (e: Throwable) {
+                    verifiedDeferred.completeExceptionally(e)
                 }
             } // start local
         }
 
+        private fun setUser(user: User) {
+            if (user.type == type) {
+                currentUser = user
+                logDebug("ASHADEBUG", "user switched $uid")
+                logDebug("ASHADEBUG", "user: ${currentUser?.email}")
+                verifiedDeferred.complete(Unit)
+            } else {
+                removeUser()
+                logDebug("ASHADEBUG", "incorrect user type")
+                val ex = Exception("Incorrect account type")
+                verifiedDeferred.completeExceptionally(ex)
+                throw ex
+            }
+        }
     }
 
 }

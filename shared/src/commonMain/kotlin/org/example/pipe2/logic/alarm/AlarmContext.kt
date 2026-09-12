@@ -18,7 +18,7 @@ import org.example.pipe2.logic.user.UserType
 // type of Log class is chosen in createLog
 class AlarmContext(private val userContext: UserContext, val dbSyncer: LogDatabaseSyncer, val logicSyncer: LogLogicSyncer): ViewModel() {
 
-    var title by mutableStateOf("No Log Open")
+    var title by mutableStateOf("No Alarm")
     var events = mutableStateListOf<Event>()
     var error by mutableStateOf<Throwable?>(null)
     private var watchJob: Job? = null
@@ -57,14 +57,14 @@ class AlarmContext(private val userContext: UserContext, val dbSyncer: LogDataba
     private fun observeUserChanges() {
         viewModelScope.launch {
             userContext.currentUserFlow.collectLatest { newUser ->
-                if (newUser?.type == UserType.Warden) {
+                if (newUser != null && newUser.type != UserType.None) {
                     startWatching("example_alarm")
                 } else {
                     watchJob?.cancel()
                     watchJob = null
                     watchingAlarmId = null
                     events.clear()
-                    title = "No Log Open"
+                    title = "No Alarm"
                 }
             }
         }

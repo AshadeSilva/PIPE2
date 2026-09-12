@@ -50,8 +50,6 @@ data class EventDetails (
             } ?: ErrorEvent(docId, sender, time)
             else -> ErrorEvent(docId, sender, time)
         }
-
-
 }
 
 object RoomConverter {

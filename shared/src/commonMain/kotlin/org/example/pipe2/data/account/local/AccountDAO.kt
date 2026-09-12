@@ -11,14 +11,14 @@ interface AccountDAO {
     @Upsert
     suspend fun upsert(user: UserDetails)
 
-    @Query("SELECT * FROM Accounts WHERE uid = :uid")
-    fun selectByUid(uid: String): Flow<UserDetails?>
+    @Query("DELETE FROM Accounts")
+    suspend fun clear()
 
-    @Query("DELETE FROM Accounts WHERE uid = :uid")
-    suspend fun deleteByUid(uid: String)
+    @Query("SELECT * FROM Accounts LIMIT 1")
+    fun getFlow(): Flow<UserDetails?>
 
-    @Query("SELECT * FROM Accounts WHERE email = :email LIMIT 1")
-    suspend fun getByEmail(email: String): UserDetails?
+    @Query("SELECT * FROM Accounts LIMIT 1")
+    suspend fun getOnce(): UserDetails?
 }
 
 // Room will automatically implement these based on the annotations
